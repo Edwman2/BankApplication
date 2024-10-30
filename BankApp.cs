@@ -8,5 +8,9 @@ namespace BankApplication
 {
     internal class BankApp
     {
+        void hej()
+        {
+            Console.WriteLine("Hej");
+        }
     }
 }
