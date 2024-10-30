@@ -8,5 +8,9 @@ namespace BankApplication
 {
     internal class Account
     {
+        void Deposit(decimal amount)
+        {
+            // Deposit the amount
+        }
     }
 }
