@@ -8,5 +8,15 @@ namespace BankApplication
 {
     internal class BankApp
     {
+
+        public BankApp()
+        {
+            //Setup
+        }
+
+        public void Run()
+        {
+            //Does nothing yet.
+        }
     }
 }
