@@ -10,6 +10,7 @@ namespace BankApplication
     {
         private Dictionary<string, decimal> exchangeRates = new Dictionary<string, decimal>();
 
+
         public CurrencyManager()
         {
             exchangeRates.Add("SEK", 1);
