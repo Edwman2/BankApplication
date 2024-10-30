@@ -10,6 +10,15 @@ namespace BankApplication
     {
         private Dictionary<string, decimal> exchangeRates = new Dictionary<string, decimal>();
 
+
+        public CurrencyManager()
+        {
+            exchangeRates.Add("SEK", 1);
+            exchangeRates.Add("USD", 0.12m);
+            exchangeRates.Add("EUR", 0.10m);
+            exchangeRates.Add("JPY", 13.0m);
+        }
+
         //TODO:
         //Adjust bool value for class check later
         //Should currency be object based?
