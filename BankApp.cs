@@ -8,11 +8,12 @@ namespace BankApplication
 {
     internal class BankApp
     {
+
         public BankApp()
         {
-            //setup
-            //TODO : Load accounts from file.
+            //Setup
         }
+
         public void Run()
         {
             //Does nothing yet.
