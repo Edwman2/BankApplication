@@ -10,7 +10,6 @@ namespace BankApplication
     {
         private Dictionary<string, decimal> exchangeRates = new Dictionary<string, decimal>();
 
-
         public CurrencyManager()
         {
             exchangeRates.Add("SEK", 1);
@@ -18,6 +17,8 @@ namespace BankApplication
             exchangeRates.Add("EUR", 0.10m);
             exchangeRates.Add("JPY", 13.0m);
         }
+
+
 
         //TODO:
         //Adjust bool value for class check later
