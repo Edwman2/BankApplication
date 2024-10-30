@@ -8,5 +8,9 @@ namespace BankApplication
 {
     internal class CurrencyManager
     {
+        void ConvertCurrency()
+        {
+            // Conversion logic
+        }
     }
 }
