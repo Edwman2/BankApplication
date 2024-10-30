@@ -8,5 +8,9 @@ namespace BankApplication
 {
     internal class InterestCalculator
     {
+        void CalculateInterest()
+        {
+            Console.WriteLine("Calculating interest...");
+        }
     }
 }
