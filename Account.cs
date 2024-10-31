@@ -17,34 +17,62 @@ namespace BankApplication
         - Diskutera hur ni vill hantera kontonummer och valutor.
 
     */
+
+    /*      Tests passed.
+     
+            Balance initialBalance = new Balance(0.00m);
+            Currency defaultCurrency = new Currency("SEK");
+            Account accountTest1 = new Account("AB001", initialBalance, defaultCurrency);
+            accountTest1.DisplayInfo();
+            accountTest1.Deposit(30m);
+            accountTest1.Withdraw(20m);
+            accountTest1.Withdraw(20m);
+            Console.ReadLine();
+
+     */
     internal class Account
     {
-        // egenskaper som kontonummer, saldo och valuta
-        public string AccountNumber { get; set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
-        public decimal Balance { get; set; } // Kanske behandla Balance som ett objekt
-        public string Currency { get; set; } // Också behandla Currency som ett objekt
+        // egenskaper som kontonummer, saldo och valuta 
+        // TODO - Kontotyp?
+        public string AccountNumber { get; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
+        public Balance Balance { get; private set; } 
+        public Currency Currency { get; } 
 
-        public Account(string accountNumber, decimal initialBalance, string currency)
+        public Account(string accountNumber, Balance initialBalance, Currency currency)
         {
             AccountNumber = accountNumber;
             Balance = initialBalance;
             Currency = currency;
         }
 
-        // Methods for Account related functionality
+        // --------------- Methods for Account related functionality ---------------
+
+        
         public void DisplayInfo()
         {
             // Displays Account info
-            Console.WriteLine($"Account Number: {AccountNumber.PadLeft(6)} \n" +
-                $"Total Balance: {Balance.ToString().PadLeft(8)} {Currency}\n");
+            Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
+                $"Total Balance: {Balance.Amount,8} {Currency.AbbreviatedNameOfCurrency}\n");
         }
-        public void Withdraw(string accountNumber, decimal amount)
+        
+        public void Withdraw(decimal amountToWithdraw)
         {
             // Withdraw the amount
+            if (Balance.Amount >= amountToWithdraw)
+            {
+                Balance.Amount -= amountToWithdraw;
+                Console.WriteLine("Money was withdrawn successfully!");
+                DisplayInfo();
+            }
+            else Console.WriteLine("Not enough money in your account!"); 
+            
         }
-        public void Deposit(string accountNumber, decimal amount)
+        public void Deposit(decimal amountToDeposit)
         {
             // Deposit the amount
+            Balance.Amount += amountToDeposit;
+            Console.WriteLine("Money was deposited successfully!");
+            DisplayInfo();
         }
     }
 }
