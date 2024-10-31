@@ -8,5 +8,9 @@ namespace BankApplication
 {
     internal class TransactionManager
     {
+        void PerformDeposit()
+        {
+            // Deposit money into an account
+        }
     }
 }
