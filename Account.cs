@@ -14,7 +14,11 @@ namespace BankApplication
     Rekommendationer och tips:
         - Skapa en lista över konton för varje användare.
         - Implementera metoder för insättning och uttag, men tänk på att uttag bara ska vara möjliga om saldot tillåter det.
-        - Diskutera hur ni vill hantera kontonummer och valutor.
+        - Diskutera: 
+            * Hur ni vill hantera kontonummer och valutor.
+            * Vem ska hantera "messages to user"? Jag kan göra om Withdraw() och Deposit() till bool istället t.ex.
+            * Separata klasserna Balance och Currency. Vad kan det tillföra till andra?
+            * 
 
     */
 
