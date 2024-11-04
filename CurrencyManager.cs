@@ -6,41 +6,41 @@ using System.Threading.Tasks;
 
 namespace BankApplication
 {
-    public class CurrencyManager
+    internal class CurrencyManager
     {
-        private Dictionary<string, decimal> exchangeRates = new Dictionary<string, decimal>();
+        private Dictionary<Currency, decimal> exchangeRates = new Dictionary<Currency, decimal>();
 
 
         public CurrencyManager()
         {
-            exchangeRates.Add("SEK", 1);
-            exchangeRates.Add("USD", 0.12m);
-            exchangeRates.Add("EUR", 0.10m);
-            exchangeRates.Add("JPY", 13.0m);
+            exchangeRates.Add(new Currency("SEK"), 1);
+            exchangeRates.Add(new Currency("USD"), 0.12m);
+            exchangeRates.Add(new Currency("EUR"), 0.10m);
+            exchangeRates.Add(new Currency("JPY"), 13.0m);
         }
 
-
-
-        //TODO:
-        //Adjust bool value for class check later
-        //Should currency be object based?
-        public void UpdateExchangeRate(string currency, decimal rate, bool isAdmin = false)
+        public void UpdateExchangeRate(Currency currency, decimal rate, bool isAdmin = false)
         {
             if (isAdmin)
             {
                 exchangeRates[currency] = rate;
                 return;
             }
-            //throw new UnauthorizedAccessException("Only admin can update exchange rates");
+
             Console.WriteLine("Error: Only admin can update exchange rates");
         }
 
-        public decimal? ConvertCurrency(decimal amount, string fromCurrency, string toCurrency)
+        public IReadOnlyDictionary<Currency, decimal> GetExchangeRates()
+        {
+            return exchangeRates;
+        }
+
+        public decimal? ConvertCurrency(Balance amount, Currency fromCurrency, Currency toCurrency)
         {
             if (!exchangeRates.ContainsKey(fromCurrency))
             {
                 Console.WriteLine("Error: Exchange rate for " + fromCurrency + " is missing");
-                return null; // Standardåtgärd om växelkurser saknas
+                return null; 
             }
             if (!exchangeRates.ContainsKey(toCurrency))
             {
@@ -48,64 +48,7 @@ namespace BankApplication
                 return null;
             }
 
-            return amount * exchangeRates[toCurrency] / exchangeRates[fromCurrency];
+            return amount.Amount * exchangeRates[toCurrency] / exchangeRates[fromCurrency];
         }
-        //Would be called like this;
-        //decimal myCurrency = 20;
-        //decimal? myNewCurrency = ConvertCurrency(myCurrency, "EUR", "US");
-
-        //if (myNewCurrency.HasValue)
-        //{
-        //    // Proceed with myNewCurrency
-        //}
-        //else
-        //{
-        //    // Handle the error (e.g., log it, notify the user, etc.)
-        //}
     }
 }
-
-//EX
-//public decimal ConvertCurrency(decimal amount, string fromCurrency, string toCurrency)
-//{
-//    if (!exchangeRates.ContainsKey(fromCurrency))
-//    {
-//        throw new ArgumentException("Exchange rate for " + fromCurrency + " is missing");
-//    }
-//    if (!exchangeRates.ContainsKey(toCurrency))
-//    {
-//        throw new ArgumentException("Exchange rate for " + toCurrency + " is missing");
-//    }
-
-//    return amount * exchangeRates[toCurrency] / exchangeRates[fromCurrency];
-//}
-
-//calling that would look like this:
-//decimal myCurrency = 20;
-
-//try
-//{
-//    decimal myNewCurrency = ConvertCurrency(myCurrency, "EUR", "US");
-//    // Proceed with myNewCurrency
-//}
-//catch (ArgumentException ex)
-//{
-//    Console.WriteLine("Conversion failed: " + ex.Message);
-//    // Handle the error
-//}
-
-//-------------
-//EX
-//public decimal ConvertCurrency(decimal amount, string fromCurrency, string toCurrency)
-//{
-//    if (!exchangeRates.ContainsKey(fromCurrency))
-//    {
-//        throw new ArgumentException("Exchange rate for " + fromCurrency + " is missing");
-//    }
-//    if (!exchangeRates.ContainsKey(toCurrency))
-//    {
-//        throw new ArgumentException("Exchange rate for " + toCurrency + " is missing");
-//    }
-
-//    return amount * exchangeRates[toCurrency] / exchangeRates[fromCurrency];
-//}
