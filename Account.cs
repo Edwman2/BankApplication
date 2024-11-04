@@ -38,6 +38,12 @@ namespace BankApplication
     {
         // egenskaper som kontonummer, saldo och valuta 
         // TODO - Kontotyp?
+        //public enum AccountType
+        //{
+        //    Debit,
+        //    Saving,
+        //    Loan
+        //}
         public string AccountNumber { get; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
         public Balance Balance { get; private set; } 
         public Currency Currency { get; } 
