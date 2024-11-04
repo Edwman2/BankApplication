@@ -1,0 +1,16 @@
+class Program
+{
+    static void Main()
+    {
+        UserManager userManager = new UserManager();
+        
+        // Skapa användare
+        userManager.AddUser("Jakob", "password123");
+        
+        // Försök att logga in
+        userManager.Login("Jakob", "wrongpassword"); // Försök 1
+        userManager.Login("Jakob", "wrongpassword"); // Försök 2
+        userManager.Login("Jakob", "wrongpassword"); // Försök 3
+        userManager.Login("Jakob", "password123");   // Kontot är låst
+    }
+}
