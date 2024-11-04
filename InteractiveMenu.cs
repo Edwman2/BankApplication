@@ -6,14 +6,40 @@ using System.Threading.Tasks;
 
 namespace BankApplication
 {
-    public static class UserInteractiveMenu
+    public class InteractiveMenu
     {
-        private static int option = 1;
-        
-        public static void Display()
+        /* Trust Executive Bank AB
+
+                User Log In
+                Create a new Account
+                Admin Log In
+
+            ----------------
+            Trust Executive Bank AB
+
+                User Log In
+
+                    Username: Jonas1337
+                    Password:
+                    Back to Menu
+
+        */
+         
+        // ------- Instance call from BankApp
+        // InteractiveMenu newLogin = new InteractiveMenu();
+        // newLogin.Display();
+        // Console.ReadLine();
+
+
+        private int option = 1;
+        private string username = string.Empty;
+        private string passwordHidden = string.Empty;
+        private Logo Logo = new Logo();
+
+        public void Display()
         {
             Console.Clear();
-            Console.WriteLine("Trust Executive Bank AB\n");
+            Console.WriteLine($"{Logo.LogoSMALL}\n"); // ANSI/ASCII Logo?
             
             
             ConsoleKeyInfo key;
@@ -26,10 +52,10 @@ namespace BankApplication
 
             while (!isSelected)
             {
-                Console.CursorLeft = left;
+                Console.CursorLeft = left; // Sets the cursor position here -> the 'cw'(text) will be overwritten.
                 Console.CursorTop = top;
                 
-                Console.WriteLine($"{(option == 1 ? color : "    ")}Log In\u001b[0m");
+                Console.WriteLine($"{(option == 1 ? color : "    ")}User Log In\u001b[0m");
                 Console.WriteLine($"{(option == 2 ? color : "    ")}Create a new Account\u001b[0m");
                 Console.WriteLine($"{(option == 3 ? color : "    ")}Admin Log In\u001b[0m");
 
@@ -61,11 +87,12 @@ namespace BankApplication
                     break;
             }
         }
-        private static void UserLogInMenu()
+        
+        private void UserLogInMenu()
         {
             Console.Clear();
-            Console.WriteLine("Trust Executive Bank AB\n");
-            Console.WriteLine("    Log In\n");
+            Console.WriteLine($"{Logo.LogoSMALL}\n");
+            Console.WriteLine("    User Log In\n");
 
             ConsoleKeyInfo key;
             bool isSelected = false;
@@ -73,10 +100,8 @@ namespace BankApplication
             int top = Console.CursorTop;
             string color = "        \u001b[32m";
             Console.CursorVisible = false;
-            string username = string.Empty;
-            string passwordHidden = string.Empty;
 
-
+            
             while (!isSelected)
             {
                 Console.CursorLeft = left;
@@ -101,46 +126,57 @@ namespace BankApplication
                         break;
                 }
             }
+            
             switch (option)
             {
                 case 1:
                     // username check?
+                    // isUsername? else -> create new Account?
+                    if (username != string.Empty)
+                    {
+                        username = string.Empty;
+                        UserLogInMenu();
+                    }
+                    else
+                    {
+                        Console.CursorLeft = 18;
+                        Console.CursorTop = 7;
+                        Console.CursorVisible = true;
+                        username = Console.ReadLine();
+                        option++;
+                        UserLogInMenu();
+                    }
                     break;
                 case 2:
                     // password check?
-                    Console.CursorLeft = 18;
-                    Console.CursorTop = 5;
-                    Console.CursorVisible = true;
-                    ConsoleKey key2;
-                    do
+                    if (username == string.Empty) UserLogInMenu();
+                    else
                     {
-                        var keyInfo = Console.ReadKey(true);
-                        key2 = keyInfo.Key;
-
-                        if (key2 != ConsoleKey.Enter)
-                        {
-                            passwordHidden += keyInfo.KeyChar;
-                            Console.Write("*"); // Display a placeholder character
-                        }
-                    } while (key2 != ConsoleKey.Enter);
+                        Console.CursorLeft = 18;
+                        Console.CursorTop = 8;
+                        Console.CursorVisible = true;
+                        passwordHidden = Console.ReadLine();
+                    }
                     break;
                 case 3:
+                    username = string.Empty;
                     Display();
                     break;
             }
 
         }
-        private static void CreateNewAccount()
+        private void CreateNewAccount()
         {
+            // Is this an admin thing or should a new user be able to create an account from here?
             Console.Clear();
-            Console.WriteLine("Trust Executive Bank AB\n");
+            Console.WriteLine($"{Logo.LogoSMALL}\n");
             Console.WriteLine("    Create a new Account\n");
         }
-        private static void AdminLogInMenu()
+        private void AdminLogInMenu()
         {
             Console.Clear();
-            Console.WriteLine("Trust Executive Bank AB\n");
-            Console.WriteLine("    Log In\n");
+            Console.WriteLine($"{Logo.LogoSMALL}\n");
+            Console.WriteLine("    Admin Log In\n");
         }
 
     }

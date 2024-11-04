@@ -17,8 +17,6 @@ namespace BankApplication
         public void Run()
         {
             //Does nothing yet.
-            UserInteractiveMenu.Display();
-            Console.ReadLine();
         }
     }
 }

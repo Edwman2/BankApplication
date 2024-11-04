@@ -47,10 +47,11 @@
     <Compile Include="BankApp.cs" />
     <Compile Include="CurrencyManager.cs" />
     <Compile Include="InterestCalculator.cs" />
+    <Compile Include="Logo.cs" />
     <Compile Include="TransactionManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInteractiveMenu.cs" />
+    <Compile Include="InteractiveMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
