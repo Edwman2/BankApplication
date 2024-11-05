@@ -9,8 +9,7 @@ namespace BankApplication
 
     internal class TransactionManager
     {
-       internal int WithdrawFrom { get; set; }
-        internal int Reciever { get; set; }
+        List<Account> ValidAccounts = new List<Account>;
 
 
     }   

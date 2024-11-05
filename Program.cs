@@ -11,7 +11,8 @@ namespace BankApplication
     {
         static void Main(string[] args)
         {
-          
+            BankApp bankApp = new BankApp();
+            bankApp.Run();
         }
     }
 }
