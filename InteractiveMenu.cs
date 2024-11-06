@@ -169,6 +169,7 @@ namespace BankApplication
             }
 
             switch (option)
+
             {
                 case 1:
                     // username check?
@@ -196,7 +197,26 @@ namespace BankApplication
                         Console.CursorLeft = 18;
                         Console.CursorTop = 8;
                         Console.CursorVisible = true;
-                        passwordHidden = Console.ReadLine();
+                        passwordHidden = string.Empty;
+
+                        while (true)
+                        {
+                            key = Console.ReadKey(true);
+                            if (key.Key == ConsoleKey.Enter) //Enter password
+                            {
+                                break;
+                            }
+                            else if (key.Key == ConsoleKey.Backspace && passwordHidden.Length > 0) //Handle backspace
+                            {
+                                passwordHidden = passwordHidden.Substring(0, passwordHidden.Length - 1); //Remove last character overrite it with space
+                                Console.CursorLeft--;
+                                Console.Write(" "); 
+                                Console.CursorLeft--; 
+                                continue;
+                            }
+                            passwordHidden += key.KeyChar; 
+                            Console.Write("*");
+                        }
                     }
                     break;
                 case 3:
@@ -204,7 +224,8 @@ namespace BankApplication
                     Display();
                     break;
             }
-
+            Console.WriteLine($"\n\nUsername: {username}\nPassword: {passwordHidden}");
+            Console.ReadLine();
         }
         private void CreateNewAccount()
         {
