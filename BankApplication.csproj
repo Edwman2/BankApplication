@@ -47,6 +47,7 @@
     <Compile Include="BankApp.cs" />
     <Compile Include="CurrencyManager.cs" />
     <Compile Include="InterestCalculator.cs" />
+    <Compile Include="Loan&amp;Save.cs" />
     <Compile Include="TransactionManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
