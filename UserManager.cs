@@ -23,3 +23,38 @@ public class User
         FailedLoginAttempts = 0;
     }
 }
+public class AuthenticationManager
+{
+    private List<User> _users = new List<User>();
+
+    public AuthenticationManager()
+    {
+        // Här kan du lägga till användare vid start
+        _users.Add(new User("admin", "password123"));
+        // ... fler användare
+    }
+
+    public bool Authenticate(string username, string password)
+    {
+        var user = _users.FirstOrDefault(u => u.Username == username);
+        if (user == null)
+        {
+            return false; // Användare inte hittad
+        }
+
+        if (user.Password != password)
+        {
+            user.FailedLoginAttempts++;
+            if (user.FailedLoginAttempts >= 3)
+            {
+                Console.WriteLine("Kontot är låst.");
+                return false;
+            }
+            return false; // Felaktigt lösenord
+        }
+
+        // Inloggning lyckad
+        user.FailedLoginAttempts = 0;
+        return true;
+    }
+}
