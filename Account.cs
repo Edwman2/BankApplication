@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,45 +49,89 @@ namespace BankApplication
         //    Loan
         //}
         public string AccountNumber { get; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
-        public Balance Balance { get; private set; } 
+        public decimal Balance { get;  set; } 
+
+        public decimal Amount { get; set; }
         public Currency Currency { get; } 
 
-        public Account(string accountNumber, Balance initialBalance, Currency currency)
+        public Account(string accountNumber, decimal initialBalance /*Currency currency*/)
         {
             AccountNumber = accountNumber;
             Balance = initialBalance;
-            Currency = currency;
+            
+            //Currency = currency;
         }
 
-        // --------------- Methods for Account related functionality ---------------
+        List<TransactionLog> transactionslogged = new List<TransactionLog>();
+
 
         
-        public void DisplayInfo()
+
+        public void AddTransactionLog(TransactionLog transaction)
         {
-            // Displays Account info
-            Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
-                $"Total Balance: {Balance.Amount,8} {Currency.AbbreviatedNameOfCurrency}\n");
+            transactionslogged.Add(transaction);
         }
+
+        public async Task showinfo()
+        {
+            foreach(var transaction in transactionslogged)
+            {
+
+                /*await Task.Delay(11100);*/ Console.WriteLine($"{transaction.FromUser},{transaction.ToUser} {transaction.dateTime}, {transaction.Amount}");
+            }
+        }
+
+
+
         
+
+
+
+
+
+
         public void Withdraw(decimal amountToWithdraw)
         {
-            // Withdraw the amount
-            if (Balance.Amount >= amountToWithdraw)
+            if (Balance >= amountToWithdraw)
             {
-                Balance.Amount -= amountToWithdraw;
+                Balance -= amountToWithdraw;
                 Console.WriteLine("Money was withdrawn successfully!");
-                DisplayInfo();
             }
-            else Console.WriteLine("Not enough money in your account!"); 
-            
-        }
-        public void Deposit(decimal amountToDeposit)
-        {
-            // Deposit the amount
-            Balance.Amount += amountToDeposit;
-            Console.WriteLine("Money was deposited successfully!");
-            DisplayInfo();
+            else
+
+                Console.WriteLine("Not enough money in your account");
+
         }
 
+
+
+        public async Task Deposit(decimal amountToDeposit)
+        {
+            // Deposit the amount
+            Balance += amountToDeposit;
+            /*await Task.Delay(11000);*/ Console.WriteLine("Money was deposited successfully!");
+            //DisplayInfo();
+        }
+
+
+
+
     }
+
+    // --------------- Methods for Account related functionality ---------------
+
+
+    //public void DisplayInfo()
+    //{
+    //    // Displays Account info
+    //    Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
+    //        $"Total Balance: {Balance,8} {Currency.AbbreviatedNameOfCurrency}\n");
+    //}
+
+
+    
+
+
+
+
 }
