@@ -51,17 +51,18 @@ namespace BankApplication
     {
         // List with accounts from account
         List<Account> ValidAccounts;
-        Queue<Task> UnproccessedTransactions;
-
+        Queue<TransactionLog> UnprocessedTransactions;
+        Queue<TransactionLog> NewUnprocessedTransactions;
 
         internal TransactionManager()
         {
             //List to store the verified accounts handled by transactionmanager
             ValidAccounts = new List<Account>();
-            UnproccessedTransactions = new Queue<Task>();
+            UnprocessedTransactions = new Queue<TransactionLog>();
+            NewUnprocessedTransactions = new Queue<TransactionLog>();
 
         }
-
+        
         //adds account to the list
         internal void AddAccount(Account account)
         {
@@ -86,56 +87,62 @@ namespace BankApplication
 
         internal void TransactionRequest(string AccountnumberOfSender, string AccountNumberOfreciever, decimal amount)
         {
-            UnproccessedTransactions.Enqueue(ProcessesAccounts(AccountnumberOfSender,AccountNumberOfreciever,amount));
+            UnprocessedTransactions.Enqueue(new TransactionLog(AccountnumberOfSender,AccountNumberOfreciever,amount));
         }
-
-        internal async Task HandleUnprocessedTransactions()
+        
+        internal async void HandleUnprocessedTransactions()
         {
-            while(true)
+            
+            while (true)
             {
-                await Task.Delay(1);
-                Console.WriteLine("Handling transaction " + UnproccessedTransactions.Count);
-                foreach(var item in UnproccessedTransactions)
+                await Task.Delay(5000); //15 minuters delay
+                while (UnprocessedTransactions.Count > 0)
                 {
+                    NewUnprocessedTransactions.Enqueue(UnprocessedTransactions.Dequeue());
+                }
 
-                    
-                    item.Start();
-                    UnproccessedTransactions.Dequeue();
+
+                Console.WriteLine("Handling transactions " + NewUnprocessedTransactions.Count);
+                
+                while (NewUnprocessedTransactions.Count > 0)
+                {
+                    ProcessesAccounts(NewUnprocessedTransactions.Dequeue());
                 }
             }
             
             
         }
 
-        internal async Task<bool> ProcessesAccounts(string AccountnumberOfSender, string AccountNumberOfreciever, decimal amount)
+        internal void ProcessesAccounts(TransactionLog log)
         {
-            var SenderAccount = FindAccounts(AccountnumberOfSender);
-            var DepositToAccount = FindAccounts(AccountNumberOfreciever);
+            var SenderAccount = FindAccounts(log.FromUser);
+            var DepositToAccount = FindAccounts(log.ToUser);
 
             if (SenderAccount == null)
             {
                 /*await Task.Delay(10000);*/ Console.WriteLine("This account can not be found");
-                return false;
+                
             }
             if (DepositToAccount == null)
             {
                 /*await Task.Delay(10000);*/ Console.WriteLine("The recieveraccount can not be found");
-                return false;
+                
             }
-            if (SenderAccount.Balance < amount)
+            if (SenderAccount.Balance < log.Amount)
             {
                 Console.WriteLine("Not enough money in your account");
-                return false;
+                
             }
-            /*await Task.Delay(10000);*/ Console.WriteLine($"both accounts were found and the transaction is in progress. {amount} SEK is on it's way.\nSender: {AccountnumberOfSender,1} \nReciever: {AccountNumberOfreciever,1}");
-            TransactionLog transaction = new TransactionLog(SenderAccount.AccountNumber, DepositToAccount.AccountNumber, amount);
+            /*await Task.Delay(10000);*/ Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
+                                             $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
+            TransactionLog transaction = new TransactionLog(SenderAccount.AccountNumber, DepositToAccount.AccountNumber, log.Amount);
 
-            SenderAccount.Withdraw(amount);
-            DepositToAccount.Deposit(amount);
+            SenderAccount.Withdraw(log.Amount);
+            DepositToAccount.Deposit(log.Amount);
 
             SenderAccount.AddTransactionLog(transaction);
             DepositToAccount.AddTransactionLog(transaction);
-            return true;
+           
             
         }
 
@@ -164,6 +171,7 @@ namespace BankApplication
         internal string FromUser { get; set; }
         internal string ToUser { get; set; }
         internal decimal Amount { get; set; }
+        internal string ErrorMessage { get; set; }
         internal DateTime dateTime = DateTime.Now;
 
         internal TransactionLog(string fromuser, string touser, decimal amount)

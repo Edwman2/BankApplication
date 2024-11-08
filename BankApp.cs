@@ -40,11 +40,11 @@ namespace BankApplication
             
             
             account.showinfo();
-            
-
 
 
             Console.ReadKey();
+
+            
 
         }
 

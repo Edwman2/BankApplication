@@ -72,7 +72,7 @@ namespace BankApplication
             transactionslogged.Add(transaction);
         }
 
-        public async Task showinfo()
+        public void showinfo()
         {
             foreach(var transaction in transactionslogged)
             {
@@ -105,7 +105,7 @@ namespace BankApplication
 
 
 
-        public async Task Deposit(decimal amountToDeposit)
+        public void Deposit(decimal amountToDeposit)
         {
             // Deposit the amount
             Balance += amountToDeposit;
