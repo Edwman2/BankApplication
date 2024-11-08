@@ -58,3 +58,33 @@ public class AuthenticationManager
         return true;
     }
 }
+public class BankApp
+{
+    private AuthenticationManager _authManager = new AuthenticationManager();
+
+    public void Run()
+    {
+        Console.WriteLine("Välkommen till bankappen!");
+
+        while (true)
+        {
+            Console.Write("Ange användarnamn: ");
+            string username = Console.ReadLine();
+
+            Console.Write("Ange lösenord: ");
+            string password = Console.ReadLine();
+
+
+            if (_authManager.Authenticate(username, password))
+            {
+                Console.WriteLine("Inloggning lyckad!");
+                // Här kan du lägga till funktionalitet för inloggade användare
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Inloggning misslyckades.");
+            }
+        }
+    }
+}
