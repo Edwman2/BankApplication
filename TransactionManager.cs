@@ -42,8 +42,33 @@ namespace BankApplication
     //    }
     //}
 
-   
 
+    /* 
+            Tests passed.
+     
+            TransactionManager ts = new TransactionManager();
+            ts.HandleUnprocessedTransactions();
+
+            Account account = new Account("BA0001", 800);
+            Account account1 = new Account("BA6753", 600);
+            
+            ts.AddAccount(account);
+            ts.AddAccount(account1);
+            ts.FindAccounts("BA0001");
+            ts.FindAccounts("BA6753");
+
+            ts.TransactionRequest("BA0001", "BA6753", 500);
+
+            //ts.ProcessedAccounts("BA0001", "BA6753", 500);
+            //ts.ProcessedAccounts("BA6753", "BA0001", 500);
+
+            account.showinfo();
+
+            Console.ReadKey();
+
+     
+     
+     */
 
 
 
@@ -133,7 +158,7 @@ namespace BankApplication
                 Console.WriteLine("Not enough money in your account");
                 
             }
-            /*await Task.Delay(10000);*/ Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
+            else/*await Task.Delay(10000);*/ Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
                                              $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
             TransactionLog transaction = new TransactionLog(SenderAccount.AccountNumber, DepositToAccount.AccountNumber, log.Amount);
 
