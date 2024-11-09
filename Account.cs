@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -71,7 +71,7 @@ Total Balance:    10,00 SEK
         //}
         public string accountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
         protected Balance balance { get; private set; }
-        protected Currency currency { get; } 
+        protected Currency currency { get; private set;} 
 
         public Account(string accountNumberInput, Balance initialBalance, Currency currencyInput)
         {
@@ -86,7 +86,7 @@ Total Balance:    10,00 SEK
         public void DisplayInfo()
         {
             // Displays Account info
-            // ,8 is instead of "Account Number:         {AccountNumber}
+            // ,8 is instead of "Account Number:         {AccountNumber} == "Pads" the accountnumber to the right by adding spaces to the left.
             Console.WriteLine($"Account Number: {accountNumber,8} \n" +
                 $"Total Balance: {balance.Amount,8} {currency.AbbreviatedNameOfCurrency}\n");
         }
