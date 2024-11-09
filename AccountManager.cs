@@ -8,21 +8,45 @@ namespace BankApplication
 {
     internal class AccountManager
     {
-        public List<Account> Accounts { get; set; }
+        private List<Account> accounts { get; set; }
 
         public AccountManager()
         {
-            Accounts = new List<Account>();
+            accounts = new List<Account>();
+        }
+        // Display User's accounts
+        public void DisplayAccounts()
+        {
+            foreach (Account account in accounts)
+            {
+                account.DisplayInfo();
+            }
         }
 
-        //public void Add(string accountNumber, )
+        public bool AddAccount(string accountNumber, string currency)
+        {
+            accounts.Add(new Account(accountNumber, new Balance(0.00m), new Currency(currency)));
+            return true;
+        }
+
+        public Account FindAccount(string accountsNumber)
+        {
+            Account foundAccount = accounts.Find(a => a.accountNumber == accountsNumber);
+
+            return foundAccount;
+        }
+
         // WORK IN PROGRESS
 
-        //public void DeleteAccount(string accountNumber)
+        //public bool DeleteAccount(string accountNumber)
         //{
-        //    var deleteAccount = Accounts.Find(a => a.AccountNumber == accountNumber);
+            
+        //    var deleteAccount = accounts.Find(a => a.AccountNumber == accountNumber);
+        //    if (deleteAccount == null) return false;
+        //    else if (deleteAccount.)
+                
+        //        accounts.Remove(deleteAccount);
+        //    return false;
         //}
-
-
     }
 }
