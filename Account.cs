@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,6 +62,9 @@ Total Balance:    10,00 SEK
      */
     internal class Account
     {
+
+
+
         // egenskaper som kontonummer, saldo och valuta 
         // TODO - Kontotyp?
         //public enum AccountType
@@ -69,6 +73,7 @@ Total Balance:    10,00 SEK
         //    Saving,
         //    Loan
         //}
+
         public string accountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
         protected Balance balance { get; private set; }
         protected Currency currency { get; private set;} 
@@ -80,17 +85,26 @@ Total Balance:    10,00 SEK
             currency = currencyInput;
         }
 
-        // --------------- Methods for Account related functionality ---------------
+        List<TransactionLog> transactionslogged = new List<TransactionLog>();
 
-        
-        public void DisplayInfo()
+        public void AddTransactionLog(TransactionLog transaction)
         {
+            transactionslogged.Add(transaction);
             // Displays Account info
             // ,8 is instead of "Account Number:         {AccountNumber} == "Pads" the accountnumber to the right by adding spaces to the left.
             Console.WriteLine($"Account Number: {accountNumber,8} \n" +
                 $"Total Balance: {balance.Amount,8} {currency.AbbreviatedNameOfCurrency}\n");
         }
-        
+
+        public void showinfo()
+        {
+            foreach(var transaction in transactionslogged)
+            {
+                Console.WriteLine($"{transaction.FromUser},{transaction.ToUser}, {transaction.dateTime}, {transaction.Amount}");
+            }
+        }
+
+
         public bool Withdraw(decimal amountToWithdraw)
         {
             // Withdraw the amount from one account
@@ -101,10 +115,26 @@ Total Balance:    10,00 SEK
             }
             else return false;
         }
+
+
+
         public void Deposit(decimal amountToDeposit)
         {
             // Deposit the amount ToAnother Account
             balance.Amount += amountToDeposit;
         }
+
+
+
+
     }
+
+   
+
+
+    
+
+
+
+
 }
