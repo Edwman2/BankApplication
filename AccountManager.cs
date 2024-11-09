@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BankApplication
 {
@@ -29,11 +25,10 @@ namespace BankApplication
             return true;
         }
 
+        // returns the requested account or a "null" if no match.
         public Account FindAccount(string accountsNumber)
         {
-            Account foundAccount = accounts.Find(a => a.accountNumber == accountsNumber);
-
-            return foundAccount;
+            return accounts.Find(a => a.AccountNumber == accountsNumber); 
         }
 
         // WORK IN PROGRESS

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -74,58 +71,40 @@ namespace BankApplication
 
     internal class TransactionManager
     {
-        // List with accounts from account
-        List<Account> ValidAccounts;
-        Queue<TransactionLog> UnprocessedTransactions;
-        Queue<TransactionLog> NewUnprocessedTransactions;
+        // *** OLD List with accounts from account *** 
+        // List<Account> ValidAccounts;
+        // NEW - The list is stored and handled by the Account Manager.
+        internal Queue<TransactionLog> UnprocessedTransactions { get; set; }
+        internal Queue<TransactionLog> NewUnprocessedTransactions { get; set; }
+        internal AccountManager AccountConnector { get; private set; }
+        internal List<TransactionLog> Transactionslogged { get; set; }
 
-        internal TransactionManager()
+        internal TransactionManager(AccountManager aM)
         {
-            //List to store the verified accounts handled by transactionmanager
-            ValidAccounts = new List<Account>();
+            // ****List to store the verified accounts handled by transactionmanager ****
+            // NEW - The list is stored and handled by the Account Manager.
             UnprocessedTransactions = new Queue<TransactionLog>();
             NewUnprocessedTransactions = new Queue<TransactionLog>();
-
+            AccountConnector = aM;
+            Transactionslogged = new List<TransactionLog>();
         }
-        
-        //adds account to the list
-        internal void AddAccount(Account account)
-        {
-            ValidAccounts.Add(account);
-        }
-
-        // Method to match given Accountnumber to accountnumbers stored in the list.
-        internal Account FindAccounts(string AccountNumber)
-        {
-
-            foreach (var valid in ValidAccounts)
-            {
-                if (valid.AccountNumber == AccountNumber)
-                {
-                    return valid;
-                }
-
-            }
-            return null;
-        }
-
 
         internal void TransactionRequest(string AccountnumberOfSender, string AccountNumberOfreciever, decimal amount)
         {
+            /*Thread.Sleep(3000);*/
             UnprocessedTransactions.Enqueue(new TransactionLog(AccountnumberOfSender,AccountNumberOfreciever,amount));
         }
         
         internal async void HandleUnprocessedTransactions()
         {
-            
             while (true)
             {
                 await Task.Delay(5000); //15 minuters delay
+                // Thread.Sleep(5000) ?
                 while (UnprocessedTransactions.Count > 0)
                 {
                     NewUnprocessedTransactions.Enqueue(UnprocessedTransactions.Dequeue());
                 }
-
 
                 Console.WriteLine("Handling transactions " + NewUnprocessedTransactions.Count);
                 
@@ -133,86 +112,54 @@ namespace BankApplication
                 {
                     ProcessesAccounts(NewUnprocessedTransactions.Dequeue());
                 }
-            }
-            
-            
+
+                ShowTransactionInfo();
+            }  
         }
 
         internal void ProcessesAccounts(TransactionLog log)
         {
-            var SenderAccount = FindAccounts(log.FromUser);
-            var DepositToAccount = FindAccounts(log.ToUser);
+            
+            Account SenderAccount =  AccountConnector.FindAccount(log.FromUser); // Using accountmanager 
+            Account DepositToAccount = AccountConnector.FindAccount(log.ToUser);
 
             if (SenderAccount == null)
             {
-                /*await Task.Delay(10000);*/ Console.WriteLine("This account can not be found");
-                
+                Console.WriteLine("Your account can not be found");
             }
-            if (DepositToAccount == null)
+            else if (DepositToAccount == null)
             {
-                /*await Task.Delay(10000);*/ Console.WriteLine("The recieveraccount can not be found");
-                
+                Console.WriteLine("The account you are trying to transfer money to can not be found");
             }
-            if (SenderAccount.Balance < log.Amount)
+            else if (SenderAccount.Balance.Amount < log.Amount) 
             {
                 Console.WriteLine("Not enough money in your account");
-                
             }
-            else/*await Task.Delay(10000);*/ Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
+            else
+            {
+                Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
                                              $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
-            TransactionLog transaction = new TransactionLog(SenderAccount.AccountNumber, DepositToAccount.AccountNumber, log.Amount);
+                TransactionLog transaction = new TransactionLog(SenderAccount.AccountNumber, DepositToAccount.AccountNumber, log.Amount);
 
-            SenderAccount.Withdraw(log.Amount);
-            DepositToAccount.Deposit(log.Amount);
+                SenderAccount.Withdraw(log.Amount);
+                DepositToAccount.Deposit(log.Amount);
 
-            SenderAccount.AddTransactionLog(transaction);
-            DepositToAccount.AddTransactionLog(transaction);
-           
-            
+                AddTransactionLog(transaction);
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-    internal class TransactionLog
-    {
-        internal string FromUser { get; set; }
-        internal string ToUser { get; set; }
-        internal decimal Amount { get; set; }
-        internal string ErrorMessage { get; set; }
-        internal DateTime dateTime = DateTime.Now;
-
-        internal TransactionLog(string fromuser, string touser, decimal amount)
-        {
-            FromUser = fromuser;
-            ToUser = touser;
-            Amount = amount;
-
-        }
-
-
-
         
 
+        public void AddTransactionLog(TransactionLog transaction)
+        {
+            Transactionslogged.Add(transaction);
+        }
 
-
-
+        public void ShowTransactionInfo()
+        {
+            foreach (var transaction in Transactionslogged)
+            {
+                Console.WriteLine($"{transaction.FromUser},{transaction.ToUser}, {transaction.dateTime}, {transaction.Amount}");
+            }
+        }
     }
 }

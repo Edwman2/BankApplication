@@ -63,78 +63,41 @@ Total Balance:    10,00 SEK
     internal class Account
     {
 
-
-
         // egenskaper som kontonummer, saldo och valuta 
-        // TODO - Kontotyp?
-        //public enum AccountType
-        //{
-        //    Debit,
-        //    Saving,
-        //    Loan
-        //}
-
-        public string accountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
-        protected Balance balance { get; private set; }
-        protected Currency currency { get; private set;} 
+        // TODO - Kontotyp? enum?
+        public string AccountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
+        public Balance Balance { get; private set; }
+        public Currency Currency { get; private set;} 
 
         public Account(string accountNumberInput, Balance initialBalance, Currency currencyInput)
         {
-            accountNumber = accountNumberInput;
-            balance = initialBalance;
-            currency = currencyInput;
+            AccountNumber = accountNumberInput;
+            Balance = initialBalance;
+            Currency = currencyInput;
         }
 
-        List<TransactionLog> transactionslogged = new List<TransactionLog>();
-
-        public void AddTransactionLog(TransactionLog transaction)
+        public void DisplayInfo()
         {
-            transactionslogged.Add(transaction);
             // Displays Account info
-            // ,8 is instead of "Account Number:         {AccountNumber} == "Pads" the accountnumber to the right by adding spaces to the left.
-            Console.WriteLine($"Account Number: {accountNumber,8} \n" +
-                $"Total Balance: {balance.Amount,8} {currency.AbbreviatedNameOfCurrency}\n");
+            // ,8 is instead of "Account Number:         {AccountNumber} ==
+            // == "Pads" the accountnumber to the right by adding spaces to the left.
+            Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
+                $"Total Balance: {Balance.Amount,8} {Currency.AbbreviatedNameOfCurrency}\n");
         }
-
-        public void showinfo()
-        {
-            foreach(var transaction in transactionslogged)
-            {
-                Console.WriteLine($"{transaction.FromUser},{transaction.ToUser}, {transaction.dateTime}, {transaction.Amount}");
-            }
-        }
-
-
         public bool Withdraw(decimal amountToWithdraw)
         {
             // Withdraw the amount from one account
-            if (balance.Amount >= amountToWithdraw)
+            if (Balance.Amount >= amountToWithdraw)
             {
-                balance.Amount -= amountToWithdraw;
+                Balance.Amount -= amountToWithdraw;
                 return true;
             }
             else return false;
         }
-
-
-
         public void Deposit(decimal amountToDeposit)
         {
             // Deposit the amount ToAnother Account
-            balance.Amount += amountToDeposit;
+            Balance.Amount += amountToDeposit;
         }
-
-
-
-
     }
-
-   
-
-
-    
-
-
-
-
 }
