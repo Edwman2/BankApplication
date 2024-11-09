@@ -13,39 +13,6 @@ namespace BankApplication
         public BankApp()
         {
             //Setup
-            TransactionManager ts = new TransactionManager();
-            ts.HandleUnprocessedTransactions();
-
-
-
-
-            Account account = new Account("BA0001", 800);
-            Account account1 = new Account("BA6753", 600);
-            
-
-
-
-
-            ts.AddAccount(account);
-            ts.AddAccount(account1);
-            ts.FindAccounts("BA0001");
-            ts.FindAccounts("BA6753");
-
-            
-            ts.TransactionRequest("BA0001", "BA6753", 500);
-            
-            //ts.ProcessedAccounts("BA0001", "BA6753", 500);
-            //ts.ProcessedAccounts("BA6753", "BA0001", 500);
-            
-            
-            
-            account.showinfo();
-
-
-            Console.ReadKey();
-
-            
-
         }
 
         public void Run()
