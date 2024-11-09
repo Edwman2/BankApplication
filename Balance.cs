@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace BankApplication
 {
-    internal class BankApp
+    internal class Balance
     {
-
-        public BankApp()
+        public decimal Amount { get; set; }
+        public Balance(decimal initialAmount)
         {
-            //Setup
-        }
-
-        public void Run()
-        {
-            //Does nothing yet.
+            Amount = initialAmount;
         }
     }
 }
