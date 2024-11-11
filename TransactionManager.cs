@@ -42,8 +42,40 @@ namespace BankApplication
     //    }
     //}
 
-   
 
+    /*          ------ Removed from BankApp.cs ----------
+                TransactionManager ts = new TransactionManager();
+                ts.HandleUnprocessedTransactions();
+
+
+
+
+                Account account = new Account("BA0001", 800);
+                Account account1 = new Account("BA6753", 600);
+
+
+
+
+
+                ts.AddAccount(account);
+                ts.AddAccount(account1);
+                ts.FindAccounts("BA0001");
+                ts.FindAccounts("BA6753");
+
+
+                ts.TransactionRequest("BA0001", "BA6753", 500);
+
+                //ts.ProcessedAccounts("BA0001", "BA6753", 500);
+                //ts.ProcessedAccounts("BA6753", "BA0001", 500);
+
+
+
+                account.showinfo();
+
+
+                Console.ReadKey();
+
+                */
 
 
 
@@ -128,7 +160,7 @@ namespace BankApplication
                 /*await Task.Delay(10000);*/ Console.WriteLine("The recieveraccount can not be found");
                 
             }
-            if (SenderAccount.Balance < log.Amount)
+            if (SenderAccount.Balance.Amount < log.Amount) // Solved error by changing prop Balance to public
             {
                 Console.WriteLine("Not enough money in your account");
                 

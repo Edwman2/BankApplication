@@ -12,8 +12,8 @@ namespace BankApplication
         public class SavingsAccount : Account
         {
             // Konstruktor för att skapa ett sparkonto, med kontonummer, startbalans och valuta
-            public SavingsAccount(string accountNumber, string AccountType, Balance initialBalance, Currency currency)
-                : base(accountNumber, AccountType, initialBalance, currency) { }
+            public SavingsAccount(string accountNumber, Balance initialBalance, Currency currency) //  AccountType,
+                : base(accountNumber, initialBalance, currency) { } //  AccountType, 
 
             // Metod för att applicera sparränta på kontot
             public void ApplySavingsInterest(decimal interestRate)
@@ -43,7 +43,7 @@ namespace BankApplication
                 if (loanAmount > maxLoanAmount)
                 {
                     // Meddelar användaren om lånebeloppet överskrider det tillåtna maximibeloppet
-                    Console.WriteLine($"Låneansökan nekad. Maximalt lånebelopp är {maxLoanAmount} {Currency.AbbreviatedNameOfCurrency}.");
+                    Console.WriteLine($"Låneansökan nekad. Maximalt lånebelopp är {maxLoanAmount} {currency.AbbreviatedNameOfCurrency}.");
                     return;
                 }
 
@@ -54,7 +54,7 @@ namespace BankApplication
 
                 // Lägger till både lånebelopp och beräknad ränta för totalt lånebelopp
                 decimal totalLoanAmount = loanAmount + interest;
-                Deposit(totalLoanAmount);
+                // TODO - Deposit(totalLoanAmount);  (Deposit does not exist in the current context)
 
                 // Meddelar användaren om det beviljade lånet och den nya saldon
                 Console.WriteLine($"Lån på {loanAmount} beviljat med ränta på {interest}. Totalt insatt: {totalLoanAmount}. Nytt saldo: {totalBalance.Amount}");

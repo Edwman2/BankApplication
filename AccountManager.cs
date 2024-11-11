@@ -31,7 +31,7 @@ namespace BankApplication
 
         public Account FindAccount(string accountsNumber)
         {
-            Account foundAccount = accounts.Find(a => a.accountNumber == accountsNumber);
+            Account foundAccount = accounts.Find(a => a.AccountNumber == accountsNumber);
 
             return foundAccount;
         }
