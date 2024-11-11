@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,18 +25,47 @@ namespace BankApplication
 
     /*      Tests passed.
      
-            Balance initialBalance = new Balance(0.00m);
-            Currency defaultCurrency = new Currency("SEK");
-            Account accountTest1 = new Account("AB001", initialBalance, defaultCurrency);
+            
+            AccountManager userAccounts = new AccountManager();
+            userAccounts.AddAccount("Tre37", "SEK");
+            userAccounts.AddAccount("Två48", "SEK");
+            userAccounts.AddAccount("Ett98", "SEK");
+            userAccounts.DisplayAccounts();
+
+            Account accountTest1 = userAccounts.FindAccount("Tre37");
             accountTest1.DisplayInfo();
-            accountTest1.Deposit(30m);
-            accountTest1.Withdraw(20m);
-            accountTest1.Withdraw(20m);
+            accountTest1.Deposit(30m); 
+            accountTest1.Withdraw(20m); // returns bool
+            accountTest1.Withdraw(20m); // returns bool
+            accountTest1.DisplayInfo();
+
             Console.ReadLine();
+
+    Tests RESULT:
+Account Number:    Tre37
+Total Balance:     0,00 SEK
+
+Account Number:    Två48
+Total Balance:     0,00 SEK
+
+Account Number:    Ett98
+Total Balance:     0,00 SEK
+
+Account Number:    Tre37
+Total Balance:     0,00 SEK
+
+Account Number:    Tre37
+Total Balance:    10,00 SEK
+
+    CONCLUSION: Ugly formatting with padding in display info.
 
      */
     internal class Account
     {
+
+
+
+
         // egenskaper som kontonummer, saldo och valuta 
         // TODO - Kontotyp?
         //public enum AccountType
@@ -44,45 +74,91 @@ namespace BankApplication
         //    Saving,
         //    Loan
         //}
-        public string AccountNumber { get; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
-        public Balance Balance { get; private set; } 
-        public Currency Currency { get; } 
 
-        public Account(string accountNumber, Balance initialBalance, Currency currency)
+        public string accountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
+        protected Balance balance { get; private set; }
+        protected Currency currency { get; } 
+
+        public Account(string accountNumberInput, Balance initialBalance, Currency currencyInput)
         {
-            AccountNumber = accountNumber;
-            Balance = initialBalance;
-            Currency = currency;
+            accountNumber = accountNumberInput;
+            balance = initialBalance;
+            currency = currencyInput;
+
         }
 
-        // --------------- Methods for Account related functionality ---------------
+        List<TransactionLog> transactionslogged = new List<TransactionLog>();
+
 
         
-        public void DisplayInfo()
+
+        public void AddTransactionLog(TransactionLog transaction)
         {
+            transactionslogged.Add(transaction);
+        }
+
+        public void showinfo()
+        {
+
             // Displays Account info
-            Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
-                $"Total Balance: {Balance.Amount,8} {Currency.AbbreviatedNameOfCurrency}\n");
-        }
-        
-        public void Withdraw(decimal amountToWithdraw)
-        {
-            // Withdraw the amount
-            if (Balance.Amount >= amountToWithdraw)
+            // ,8 is instead of "Account Number:         {AccountNumber}
+            Console.WriteLine($"Account Number: {accountNumber,8} \n" +
+                $"Total Balance: {balance.Amount,8} {currency.AbbreviatedNameOfCurrency}\n");
+
+            foreach(var transaction in transactionslogged)
             {
-                Balance.Amount -= amountToWithdraw;
-                Console.WriteLine("Money was withdrawn successfully!");
-                DisplayInfo();
+
+                /*await Task.Delay(11100);*/ Console.WriteLine($"{transaction.FromUser},{transaction.ToUser} {transaction.dateTime}, {transaction.Amount}");
             }
-            else Console.WriteLine("Not enough money in your account!"); 
-            
+
         }
+
+
+
+        
+
+        public bool Withdraw(decimal amountToWithdraw)
+        {
+            // Withdraw the amount from one account
+            if (balance.Amount >= amountToWithdraw)
+            {
+                balance.Amount -= amountToWithdraw;
+                return true;
+            }
+            else return false;
+
+        }
+
+
+
         public void Deposit(decimal amountToDeposit)
         {
-            // Deposit the amount
-            Balance.Amount += amountToDeposit;
-            Console.WriteLine("Money was deposited successfully!");
-            DisplayInfo();
+
+            // Deposit the amount ToAnother Account
+            balance.Amount += amountToDeposit;
+
         }
+
+
+
+
+
     }
+
+    // --------------- Methods for Account related functionality ---------------
+
+
+    //public void DisplayInfo()
+    //{
+    //    // Displays Account info
+    //    Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
+    //        $"Total Balance: {Balance,8} {Currency.AbbreviatedNameOfCurrency}\n");
+    //}
+
+
+    
+
+
+
+
 }
