@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 
 namespace BankApplication
@@ -91,7 +92,7 @@ namespace BankApplication
 
         internal void TransactionRequest(string AccountnumberOfSender, string AccountNumberOfreciever, decimal amount)
         {
-            /*Thread.Sleep(3000);*/
+            /*Thread.Sleep(3000); To simulate transactions made at different times.*/
             UnprocessedTransactions.Enqueue(new TransactionLog(AccountnumberOfSender,AccountNumberOfreciever,amount));
         }
         
@@ -139,13 +140,11 @@ namespace BankApplication
             {
                 Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
                                              $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
-                TransactionLog transaction = new TransactionLog(SenderAccount.AccountNumber, DepositToAccount.AccountNumber, log.Amount);
 
                 SenderAccount.Withdraw(log.Amount);
                 DepositToAccount.Deposit(log.Amount);
-
-                AddTransactionLog(transaction);
             }
+            AddTransactionLog(log);
         }
         
 
