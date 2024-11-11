@@ -25,14 +25,39 @@ namespace BankApplication
 
     /*      Tests passed.
      
-            Balance initialBalance = new Balance(0.00m);
-            Currency defaultCurrency = new Currency("SEK");
-            Account accountTest1 = new Account("AB001", initialBalance, defaultCurrency);
+            
+            AccountManager userAccounts = new AccountManager();
+            userAccounts.AddAccount("Tre37", "SEK");
+            userAccounts.AddAccount("Två48", "SEK");
+            userAccounts.AddAccount("Ett98", "SEK");
+            userAccounts.DisplayAccounts();
+
+            Account accountTest1 = userAccounts.FindAccount("Tre37");
             accountTest1.DisplayInfo();
-            accountTest1.Deposit(30m);
-            accountTest1.Withdraw(20m);
-            accountTest1.Withdraw(20m);
+            accountTest1.Deposit(30m); 
+            accountTest1.Withdraw(20m); // returns bool
+            accountTest1.Withdraw(20m); // returns bool
+            accountTest1.DisplayInfo();
+
             Console.ReadLine();
+
+    Tests RESULT:
+Account Number:    Tre37
+Total Balance:     0,00 SEK
+
+Account Number:    Två48
+Total Balance:     0,00 SEK
+
+Account Number:    Ett98
+Total Balance:     0,00 SEK
+
+Account Number:    Tre37
+Total Balance:     0,00 SEK
+
+Account Number:    Tre37
+Total Balance:    10,00 SEK
+
+    CONCLUSION: Ugly formatting with padding in display info.
 
      */
     internal class Account
@@ -49,18 +74,17 @@ namespace BankApplication
         //    Saving,
         //    Loan
         //}
-        public string AccountNumber { get; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
-        public decimal Balance { get;  set; } 
 
-        public decimal Amount { get; set; }
-        public Currency Currency { get; } 
+        public string accountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
+        protected Balance balance { get; private set; }
+        protected Currency currency { get; } 
 
-        public Account(string accountNumber, decimal initialBalance /*Currency currency*/)
+        public Account(string accountNumberInput, Balance initialBalance, Currency currencyInput)
         {
-            AccountNumber = accountNumber;
-            Balance = initialBalance;
-            
-            //Currency = currency;
+            accountNumber = accountNumberInput;
+            balance = initialBalance;
+            currency = currencyInput;
+
         }
 
         List<TransactionLog> transactionslogged = new List<TransactionLog>();
@@ -75,32 +99,33 @@ namespace BankApplication
 
         public void showinfo()
         {
+
+            // Displays Account info
+            // ,8 is instead of "Account Number:         {AccountNumber}
+            Console.WriteLine($"Account Number: {accountNumber,8} \n" +
+                $"Total Balance: {balance.Amount,8} {currency.AbbreviatedNameOfCurrency}\n");
+
             foreach(var transaction in transactionslogged)
             {
 
                 /*await Task.Delay(11100);*/ Console.WriteLine($"{transaction.FromUser},{transaction.ToUser} {transaction.dateTime}, {transaction.Amount}");
             }
+
         }
 
 
 
         
 
-
-
-
-
-
-        public void Withdraw(decimal amountToWithdraw)
+        public bool Withdraw(decimal amountToWithdraw)
         {
-            if (Balance >= amountToWithdraw)
+            // Withdraw the amount from one account
+            if (balance.Amount >= amountToWithdraw)
             {
-                Balance -= amountToWithdraw;
-                Console.WriteLine("Money was withdrawn successfully!");
+                balance.Amount -= amountToWithdraw;
+                return true;
             }
-            else
-
-                Console.WriteLine("Not enough money in your account");
+            else return false;
 
         }
 
@@ -108,10 +133,10 @@ namespace BankApplication
 
         public void Deposit(decimal amountToDeposit)
         {
-            // Deposit the amount
-            Balance += amountToDeposit;
-            /*await Task.Delay(11000);*/ Console.WriteLine("Money was deposited successfully!");
-            //DisplayInfo();
+
+            // Deposit the amount ToAnother Account
+            balance.Amount += amountToDeposit;
+
         }
 
 
