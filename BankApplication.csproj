@@ -44,7 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="AccountManager.cs" />
+    <Compile Include="Balance.cs" />
     <Compile Include="BankApp.cs" />
+    <Compile Include="Currency.cs" />
     <Compile Include="CurrencyManager.cs" />
     <Compile Include="InterestCalculator.cs" />
     <Compile Include="TransactionManager.cs" />
