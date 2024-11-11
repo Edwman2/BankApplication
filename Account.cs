@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -37,6 +37,7 @@ namespace BankApplication
      */
     internal class Account
     {
+
 
 
 
@@ -112,6 +113,7 @@ namespace BankApplication
             /*await Task.Delay(11000);*/ Console.WriteLine("Money was deposited successfully!");
             //DisplayInfo();
         }
+
 
 
 
