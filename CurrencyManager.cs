@@ -51,5 +51,6 @@ namespace BankApplication
 
             return amount.Amount * exchangeRates[toCurrency] / exchangeRates[fromCurrency];
         }
+
     }
 }

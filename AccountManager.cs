@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace BankApplication
 {
@@ -25,10 +25,17 @@ namespace BankApplication
             return true;
         }
 
-        // returns the requested account or a "null" if no match.
+        public bool AddSavingsAccount(string accountNumber, string currency)
+        {
+            accounts.Add(new SavingsAccount(accountNumber, new Balance(0.00m), new Currency(currency)));
+            return true;
+        }
+
         public Account FindAccount(string accountsNumber)
         {
-            return accounts.Find(a => a.AccountNumber == accountsNumber); 
+            Account foundAccount = accounts.Find(a => a.AccountNumber == accountsNumber);
+
+            return foundAccount;
         }
 
         // WORK IN PROGRESS

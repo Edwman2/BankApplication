@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +13,7 @@ namespace BankApplication
         internal decimal Amount { get; set; } // Transaction Amount
         internal string ErrorMessage { get; set; }
         internal DateTime dateTime = DateTime.Now; // Ska 
+
 
         internal TransactionLog(string fromuser, string touser, decimal amount)
         {

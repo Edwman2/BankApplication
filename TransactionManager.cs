@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+
 
 
 namespace BankApplication
@@ -38,35 +39,57 @@ namespace BankApplication
     //    {
     //        // Logik för att genomföra transaktioner var 15:e minut
     //    }
+    //    private List<Transaction> transactionLog = new List<Transaction>();
+
+    //    public void ScheduleTransaction(string fromAccount, string toAccount, decimal amount)
+    //    {
+    //        // Skapa en transaktion och lägg till i loggen
+    //        var transaction = new Transaction(fromAccount, toAccount, amount);
+    //        transactionLog.Add(transaction);
+    //    }
+
+    //    public async Task<string> "namn" ProcessScheduledTransactions()
+    //    {
+    //        // Logik för att genomföra transaktioner var 15:e minut
+    //    }
     //}
 
 
-    /* 
-            Tests passed.
-     
-            TransactionManager ts = new TransactionManager();
-            ts.HandleUnprocessedTransactions();
 
-            Account account = new Account("BA0001", 800);
-            Account account1 = new Account("BA6753", 600);
-            
-            ts.AddAccount(account);
-            ts.AddAccount(account1);
-            ts.FindAccounts("BA0001");
-            ts.FindAccounts("BA6753");
 
-            ts.TransactionRequest("BA0001", "BA6753", 500);
+    /*          ------ Removed from BankApp.cs ----------
+                TransactionManager ts = new TransactionManager();
+                ts.HandleUnprocessedTransactions();
 
-            //ts.ProcessedAccounts("BA0001", "BA6753", 500);
-            //ts.ProcessedAccounts("BA6753", "BA0001", 500);
 
-            account.showinfo();
 
-            Console.ReadKey();
 
-     
-     
-     */
+                Account account = new Account("BA0001", 800);
+                Account account1 = new Account("BA6753", 600);
+
+
+
+
+
+                ts.AddAccount(account);
+                ts.AddAccount(account1);
+                ts.FindAccounts("BA0001");
+                ts.FindAccounts("BA6753");
+
+
+                ts.TransactionRequest("BA0001", "BA6753", 500);
+
+                //ts.ProcessedAccounts("BA0001", "BA6753", 500);
+                //ts.ProcessedAccounts("BA6753", "BA0001", 500);
+
+
+
+                account.showinfo();
+
+
+                Console.ReadKey();
+
+                */
 
 
 
@@ -112,10 +135,10 @@ namespace BankApplication
                 while (NewUnprocessedTransactions.Count > 0)
                 {
                     ProcessesAccounts(NewUnprocessedTransactions.Dequeue());
-                }
-
+                }               
                 ShowTransactionInfo();
             }  
+
         }
 
         internal void ProcessesAccounts(TransactionLog log)
@@ -160,5 +183,6 @@ namespace BankApplication
                 Console.WriteLine($"{transaction.FromUser},{transaction.ToUser}, {transaction.dateTime}, {transaction.Amount}");
             }
         }
+
     }
 }

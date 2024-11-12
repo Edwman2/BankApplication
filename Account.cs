@@ -1,4 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BankApplication
 {
@@ -58,11 +63,22 @@ Total Balance:    10,00 SEK
     internal class Account
     {
 
+
+
+
+
         // egenskaper som kontonummer, saldo och valuta 
-        // TODO - Kontotyp? enum?
+        // TODO - Kontotyp?
+        //public enum AccountType
+        //{
+        //    Debit,
+        //    Saving,
+        //    Loan
+        //}
+
         public string AccountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
         public Balance Balance { get; private set; }
-        public Currency Currency { get; private set;} 
+        protected Currency Currency { get; } 
 
         public Account(string accountNumberInput, Balance initialBalance, Currency currencyInput)
         {
@@ -70,15 +86,9 @@ Total Balance:    10,00 SEK
             Balance = initialBalance;
             Currency = currencyInput;
         }
+
         
-        public void DisplayInfo()
-        {
-            // Displays Account info
-            // ,8 is instead of "Account Number:         {AccountNumber} ==
-            // == "Pads" the accountnumber to the right by adding spaces to the left.
-            Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
-                $"Total Balance: {Balance.Amount,8} {Currency.AbbreviatedNameOfCurrency}\n");
-        }
+
         public bool Withdraw(decimal amountToWithdraw)
         {
             // Withdraw the amount from one account
@@ -87,12 +97,27 @@ Total Balance:    10,00 SEK
                 Balance.Amount -= amountToWithdraw;
                 return true;
             }
-            else return false;
+            return false;
+
+
         }
+
+        public void DisplayInfo()
+        {
+            // Displays Account info
+            Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
+                $"Total Balance: {Balance,8} {Currency.AbbreviatedNameOfCurrency}\n");
+
+        }
+
         public void Deposit(decimal amountToDeposit)
         {
             // Deposit the amount ToAnother Account
             Balance.Amount += amountToDeposit;
+
         }
+
     }
+
+   
 }
