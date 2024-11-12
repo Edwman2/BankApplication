@@ -70,7 +70,7 @@ Total Balance:    10,00 SEK
             Balance = initialBalance;
             Currency = currencyInput;
         }
-
+        
         public void DisplayInfo()
         {
             // Displays Account info
