@@ -51,6 +51,13 @@ namespace BankApplication
             account1.Deposit(1000m);
             Console.WriteLine("1000 SEK has been deposited to Account A001");
 
+            TransactionManager ts = new TransactionManager(userAccounts);
+            ts.HandleUnprocessedTransactions();
+            ts.TransactionRequest("A001", "A002", 150);
+            
+            Console.WriteLine($"150 SEK has been transferred from Account A001 to Account A002");
+
+
             Console.ReadLine();
 
 
