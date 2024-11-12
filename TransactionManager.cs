@@ -194,28 +194,4 @@ namespace BankApplication
 
 
     }
-    internal class TransactionLog
-    {
-        internal string FromUser { get; set; }
-        internal string ToUser { get; set; }
-        internal decimal Amount { get; set; }
-        internal string ErrorMessage { get; set; }
-        internal DateTime dateTime = DateTime.Now;
-
-        internal TransactionLog(string fromuser, string touser, decimal amount)
-        {
-            FromUser = fromuser;
-            ToUser = touser;
-            Amount = amount;
-
-        }
-
-
-
-        
-
-
-
-
-    }
 }
