@@ -75,13 +75,14 @@ Total Balance:    10,00 SEK
         //    Saving,
         //    Loan
         //}
-
+        public List<TransactionLog> TransactionHistory { get; set; }
         public string AccountNumber { get; private set; } // TODO - Maybe change to GUID? public Guid AccNo ... AccNo = Guid.NewGuid();
         public Balance Balance { get; private set; }
         protected Currency Currency { get; } 
 
         public Account(string accountNumberInput, Balance initialBalance, Currency currencyInput)
         {
+            TransactionHistory = new List<TransactionLog>();
             AccountNumber = accountNumberInput;
             Balance = initialBalance;
             Currency = currencyInput;

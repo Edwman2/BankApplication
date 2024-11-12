@@ -101,7 +101,7 @@ namespace BankApplication
         internal Queue<TransactionLog> UnprocessedTransactions { get; set; }
         internal Queue<TransactionLog> NewUnprocessedTransactions { get; set; }
         internal AccountManager AccountConnector { get; private set; }
-        internal List<TransactionLog> Transactionslogged { get; set; }
+        internal List<TransactionLog> Transactionslogged { get; set; } // OLD - sent to AccManager
 
         internal TransactionManager(AccountManager aM)
         {
@@ -110,7 +110,7 @@ namespace BankApplication
             UnprocessedTransactions = new Queue<TransactionLog>();
             NewUnprocessedTransactions = new Queue<TransactionLog>();
             AccountConnector = aM;
-            Transactionslogged = new List<TransactionLog>();
+            Transactionslogged = new List<TransactionLog>(); // OLD - sent to AccManager
         }
 
         internal void TransactionRequest(string AccountnumberOfSender, string AccountNumberOfreciever, decimal amount)
@@ -168,12 +168,14 @@ namespace BankApplication
                 DepositToAccount.Deposit(log.Amount);
             }
             AddTransactionLog(log);
+
         }
         
 
         public void AddTransactionLog(TransactionLog transaction)
         {
-            Transactionslogged.Add(transaction);
+            /*Transactionslogged.Add(transaction);*/
+            AccountConnector.LogTransaction(transaction);
         }
 
         public void ShowTransactionInfo()

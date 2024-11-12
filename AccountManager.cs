@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace BankApplication
 {
@@ -36,6 +38,31 @@ namespace BankApplication
             Account foundAccount = accounts.Find(a => a.AccountNumber == accountsNumber);
 
             return foundAccount;
+        }
+        public void LogTransaction(TransactionLog log)
+        {
+            Account fromAccount = accounts.Find(a => a.AccountNumber == log.FromUser);
+            Account toAccount = accounts.Find(a => a.AccountNumber == log.ToUser);
+            if (fromAccount != null && toAccount != null)
+            {
+                fromAccount.TransactionHistory.Add(log);
+                toAccount.TransactionHistory.Add(log);
+            }
+            else
+            {
+                Console.WriteLine("Feck off!"); // TODO - What is going to happen if one is valid 
+                // and the other isn't? Should it be logged anyway?
+            }
+
+        }
+        // Prints the transaction history for the money account the user has specified.
+        public void ShowTransactionHistory(string accountNumber)
+        {
+            Account ChosenAccount = accounts.Find(a => a.AccountNumber == accountNumber);
+            foreach (TransactionLog transaction in ChosenAccount.TransactionHistory)
+            {
+                Console.WriteLine(transaction);
+            }
         }
 
         // WORK IN PROGRESS

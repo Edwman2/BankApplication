@@ -13,6 +13,8 @@ namespace BankApplication
         public SavingsAccount(string accountNumber, Balance initialBalance, Currency currency) //  AccountType,
             : base(accountNumber, initialBalance, currency) { } //  AccountType, 
 
+        // TODO - private List<TransactionLog> TransactionHistory { get; set; } LÖS DET
+
         // Metod för att applicera sparränta på kontot
         public void ApplySavingsInterest(decimal interestRate)
         {
