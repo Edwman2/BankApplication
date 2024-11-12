@@ -66,6 +66,7 @@ Total Balance:    10,00 SEK
 
 
 
+
         // egenskaper som kontonummer, saldo och valuta 
         // TODO - Kontotyp?
         //public enum AccountType
@@ -84,36 +85,7 @@ Total Balance:    10,00 SEK
             AccountNumber = accountNumberInput;
             Balance = initialBalance;
             Currency = currencyInput;
-
         }
-
-        List<TransactionLog> transactionslogged = new List<TransactionLog>();
-
-
-        
-
-        public void AddTransactionLog(TransactionLog transaction)
-        {
-            transactionslogged.Add(transaction);
-        }
-
-        public void showinfo()
-        {
-
-            // Displays Account info
-            // ,8 is instead of "Account Number:         {AccountNumber}
-            Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
-                $"Total Balance: {Balance.Amount,8} {Currency.AbbreviatedNameOfCurrency}\n");
-
-            foreach(var transaction in transactionslogged)
-            {
-
-                /*await Task.Delay(11100);*/ Console.WriteLine($"{transaction.FromUser},{transaction.ToUser} {transaction.dateTime}, {transaction.Amount}");
-            }
-
-        }
-
-
 
         
 
@@ -125,7 +97,8 @@ Total Balance:    10,00 SEK
                 Balance.Amount -= amountToWithdraw;
                 return true;
             }
-            else return false;
+            return false;
+
 
         }
 
@@ -134,31 +107,17 @@ Total Balance:    10,00 SEK
             // Displays Account info
             Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
                 $"Total Balance: {Balance,8} {Currency.AbbreviatedNameOfCurrency}\n");
+
         }
 
         public void Deposit(decimal amountToDeposit)
         {
-
             // Deposit the amount ToAnother Account
             Balance.Amount += amountToDeposit;
 
         }
 
-
-
-
-
     }
 
-    // --------------- Methods for Account related functionality ---------------
-
-
-    
-
-
-    
-
-
-
-
+   
 }

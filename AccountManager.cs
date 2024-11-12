@@ -1,8 +1,4 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankApplication
 {
@@ -28,6 +24,7 @@ namespace BankApplication
             accounts.Add(new Account(accountNumber, new Balance(0.00m), new Currency(currency)));
             return true;
         }
+
         public bool AddSavingsAccount(string accountNumber, string currency)
         {
             accounts.Add(new SavingsAccount(accountNumber, new Balance(0.00m), new Currency(currency)));
