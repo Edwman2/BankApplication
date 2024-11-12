@@ -33,7 +33,26 @@ namespace BankApplication
             Console.WriteLine("Logging in as Simon");
             currentUser = _authManager._users.First(u => u.Username == "Simon");
             Console.WriteLine("Logged in as Simon");
+
+
+            // Bank Menu
+            Console.WriteLine("\n Bank Meny \n");
+
+            // User creates account(s):
+
+            AccountManager userAccounts = new AccountManager();
+            userAccounts.AddAccount("A001", "SEK");
+            userAccounts.AddSavingsAccount("A002", "USD");
+            Console.WriteLine("Account 1 created, Acc no A001");
+            Console.WriteLine("Savings Account 2 created, Acc no A002");
+            
+
+            var account1 = userAccounts.FindAccount("A001");
+            account1.Deposit(1000m);
+            Console.WriteLine("1000 SEK has been deposited to Account A001");
+
             Console.ReadLine();
+
 
             //    bool running = true;
             //    while (running)
