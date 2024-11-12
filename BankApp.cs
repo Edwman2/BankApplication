@@ -51,6 +51,11 @@ namespace BankApplication
             account1.Deposit(1000m);
             Console.WriteLine("1000 SEK has been deposited to Account A001");
 
+            //Loan manager function
+            LoanManager Lm1 = new LoanManager();
+            Lm1.ApplyForLoan(account1, 4500, account1.Balance, account1.Currency, 0.043m);
+            Console.WriteLine("Broke or rich?");
+
             TransactionManager ts = new TransactionManager(userAccounts);
             ts.HandleUnprocessedTransactions();
             ts.TransactionRequest("A001", "A002", 150);

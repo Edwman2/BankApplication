@@ -33,10 +33,11 @@ namespace BankApplication
             // Lägger till både lånebelopp och beräknad ränta för totalt lånebelopp
             decimal totalLoanAmount = loanAmount + interest;
 
-            account.Deposit(totalLoanAmount);
+            account.Deposit(loanAmount);
             // Meddelar användaren om det beviljade lånet och den nya saldon
             Console.WriteLine($"Lån på {loanAmount} beviljat med ränta på {interest}. " +
-                $"Totalt insatt: {totalLoanAmount}. Nytt saldo: {totalBalance.Amount}");
+                $"Totalt insatt: {loanAmount}. Nytt saldo: {totalBalance.Amount} totalt kommer " +
+                $"du att behöva betala tillbaka {totalLoanAmount}");
         }
     }
 }
