@@ -25,7 +25,7 @@ public class User
 }
 public class AuthenticationManager
 {
-    private List<User> _users = new List<User>();
+    public List<User> _users = new List<User>();
 
     public AuthenticationManager()
     {
@@ -36,7 +36,7 @@ public class AuthenticationManager
 
     public bool Authenticate(string username, string password)
     {
-        var user = _users.FirstOrDefault(u => u.Username == username);
+        var user = _users.First(u => u.Username == username);
         if (user == null)
         {
             return false; // Användare inte hittad
