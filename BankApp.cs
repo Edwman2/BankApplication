@@ -10,7 +10,7 @@ namespace BankApplication
 {
     internal class BankApp
     {
-        
+
         public BankApp()
         {
             //Setup

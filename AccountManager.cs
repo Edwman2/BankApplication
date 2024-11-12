@@ -28,6 +28,11 @@ namespace BankApplication
             accounts.Add(new Account(accountNumber, new Balance(0.00m), new Currency(currency)));
             return true;
         }
+        public bool AddSavingsAccount(string accountNumber, string currency)
+        {
+            accounts.Add(new SavingsAccount(accountNumber, new Balance(0.00m), new Currency(currency)));
+            return true;
+        }
 
         public Account FindAccount(string accountsNumber)
         {
