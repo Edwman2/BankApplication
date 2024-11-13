@@ -12,33 +12,34 @@ namespace BankApplication
     {
 
         private AuthenticationManager _authManager;
-        Admin user;
-        User currentUser;
+        private CurrencyManager _currencyManager;
+        Admin _user;
+        User _currentUser;
         public BankApp()
         {
             //Setup
             _authManager = new();
-
+            _currencyManager = new();
 
         }
 
         public void Run()
         {
             Console.WriteLine("Välkommen till bankappen!"); //TODO ASCI THING ADD
-            user = new Admin("admin", "password123", _authManager); //Auto login as Admin for test.
+            _user = new Admin("admin", "password123", _authManager); //Auto login as Admin for test.
             Console.WriteLine("Auto Selecting Admin as user");
-            user.CreateUser("Simon", "si");
+            _user.CreateUser("Simon", "si");
             Console.WriteLine("Auto created user Simon with password si");
+            Console.WriteLine("Auto updating currency exchange rate");
+            _currencyManager.UpdateExchangeRate("SEK", 1, true);
             Console.WriteLine("Logging out Admin");
             Console.WriteLine("Logging in as Simon");
-            currentUser = _authManager._users.First(u => u.Username == "Simon");
+            _currentUser = _authManager._users.First(u => u.Username == "Simon");
             Console.WriteLine("Logged in as Simon");
-
+            Console.WriteLine("---------------");
 
             // Bank Menu
             Console.WriteLine("\n Bank Meny \n");
-
-            // User creates account(s):
 
             AccountManager userAccounts = new AccountManager();
             userAccounts.AddAccount("A001", "SEK");
@@ -54,41 +55,15 @@ namespace BankApplication
             //Loan manager function
             LoanManager Lm1 = new LoanManager();
             Lm1.ApplyForLoan(account1, 4500, account1.Balance, account1.Currency, 0.043m);
-            Console.WriteLine("Broke or rich?");
 
-            TransactionManager ts = new TransactionManager(userAccounts);
+            TransactionManager ts = new TransactionManager(userAccounts, _currencyManager);
             ts.HandleUnprocessedTransactions();
             ts.TransactionRequest("A001", "A002", 150);
             
             Console.WriteLine($"150 SEK has been transferred from Account A001 to Account A002");
-
+            Console.WriteLine("---------------");
 
             Console.ReadLine();
-
-
-            //    bool running = true;
-            //    while (running)
-            //    {
-            //        Console.WriteLine("Välj ett alternativ:");
-            //        Console.WriteLine("1. Logga in");
-            //        Console.WriteLine("2. Avsluta");
-
-            //        string input = Console.ReadLine();
-            //        switch (input)
-            //        {
-            //            case "1":
-            //                Login();
-            //                break;
-            //            case "2":
-            //                running = false;
-            //                break;
-            //            default:
-            //                Console.WriteLine("Felaktig inmatning, försök igen.");
-            //                break;
-            //        }
-            //    }
-
-            //}
         }
     }
 }

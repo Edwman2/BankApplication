@@ -9,18 +9,18 @@ namespace BankApplication
     internal class CurrencyManager
     {
 
-        private Dictionary<Currency, decimal> exchangeRates = new Dictionary<Currency, decimal>();
+        private Dictionary<string, decimal> exchangeRates = new Dictionary<string, decimal>();
 
 
         public CurrencyManager()
         {
-            exchangeRates.Add(new Currency("SEK"), 1);
-            exchangeRates.Add(new Currency("USD"), 0.12m);
-            exchangeRates.Add(new Currency("EUR"), 0.10m);
-            exchangeRates.Add(new Currency("JPY"), 13.0m);
+            exchangeRates.Add("SEK", 1);    // SEK to SEK, no change
+            exchangeRates.Add("USD", 0.1m); // 1 SEK = 0.1 USD (approx)
+            exchangeRates.Add("EUR", 0.09m); // 1 SEK = 0.09 EUR (approx)
+            exchangeRates.Add("JPY", 12.0m); // 1 SEK = 12 JPY (approx)
         }
 
-        public void UpdateExchangeRate(Currency currency, decimal rate, bool isAdmin = false)
+        public void UpdateExchangeRate(string currency, decimal rate, bool isAdmin = false)
         {
             if (isAdmin)
             {
@@ -31,26 +31,25 @@ namespace BankApplication
             Console.WriteLine("Error: Only admin can update exchange rates");
         }
 
-        public IReadOnlyDictionary<Currency, decimal> GetExchangeRates()
+        public IReadOnlyDictionary<string, decimal> GetExchangeRates()
         {
             return exchangeRates;
         }
 
         public decimal? ConvertCurrency(Balance amount, Currency fromCurrency, Currency toCurrency)
         {
-            if (!exchangeRates.ContainsKey(fromCurrency))
+            if (!exchangeRates.ContainsKey(fromCurrency.AbbreviatedNameOfCurrency))
             {
-                Console.WriteLine("Error: Exchange rate for " + fromCurrency + " is missing");
+                Console.WriteLine("Error: Exchange rate for " + fromCurrency.AbbreviatedNameOfCurrency+ " is missing");
                 return null; 
             }
-            if (!exchangeRates.ContainsKey(toCurrency))
+            if (!exchangeRates.ContainsKey(toCurrency.AbbreviatedNameOfCurrency))
             {
-                Console.WriteLine("Error: Exchange rate for " + toCurrency + " is missing");
+                Console.WriteLine("Error: Exchange rate for " + toCurrency.AbbreviatedNameOfCurrency + " is missing");
                 return null;
             }
 
-            return amount.Amount * exchangeRates[toCurrency] / exchangeRates[fromCurrency];
+            return amount.Amount * exchangeRates[toCurrency.AbbreviatedNameOfCurrency] / exchangeRates[fromCurrency.AbbreviatedNameOfCurrency];
         }
-
     }
 }

@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-
-
 namespace BankApplication
 {
     //public class Transaction
@@ -102,8 +100,9 @@ namespace BankApplication
         internal Queue<TransactionLog> NewUnprocessedTransactions { get; set; }
         internal AccountManager AccountConnector { get; private set; }
         internal List<TransactionLog> Transactionslogged { get; set; } // OLD - sent to AccManager
+        internal CurrencyManager currencyManager;
 
-        internal TransactionManager(AccountManager aM)
+        internal TransactionManager(AccountManager aM, CurrencyManager currencyManager)
         {
             // ****List to store the verified accounts handled by transactionmanager ****
             // NEW - The list is stored and handled by the Account Manager.
@@ -111,14 +110,15 @@ namespace BankApplication
             NewUnprocessedTransactions = new Queue<TransactionLog>();
             AccountConnector = aM;
             Transactionslogged = new List<TransactionLog>(); // OLD - sent to AccManager
+            this.currencyManager = currencyManager;
         }
 
         internal void TransactionRequest(string AccountnumberOfSender, string AccountNumberOfreciever, decimal amount)
         {
             /*Thread.Sleep(3000); To simulate transactions made at different times.*/
-            UnprocessedTransactions.Enqueue(new TransactionLog(AccountnumberOfSender,AccountNumberOfreciever,amount));
+            UnprocessedTransactions.Enqueue(new TransactionLog(AccountnumberOfSender, AccountNumberOfreciever, amount));
         }
-        
+
         internal async void HandleUnprocessedTransactions()
         {
             while (true)
@@ -131,20 +131,18 @@ namespace BankApplication
                 }
 
                 Console.WriteLine("Handling transactions " + NewUnprocessedTransactions.Count);
-                
+
                 while (NewUnprocessedTransactions.Count > 0)
                 {
                     ProcessesAccounts(NewUnprocessedTransactions.Dequeue());
-                }               
+                }
                 ShowTransactionInfo();
-            }  
-
+            }
         }
 
         internal void ProcessesAccounts(TransactionLog log)
         {
-            
-            Account SenderAccount =  AccountConnector.FindAccount(log.FromUser); // Using accountmanager 
+            Account SenderAccount = AccountConnector.FindAccount(log.FromUser); // Using accountmanager 
             Account DepositToAccount = AccountConnector.FindAccount(log.ToUser);
 
             if (SenderAccount == null)
@@ -155,26 +153,38 @@ namespace BankApplication
             {
                 Console.WriteLine("The account you are trying to transfer money to can not be found");
             }
-            else if (SenderAccount.Balance.Amount < log.Amount) 
+            else if (SenderAccount.Balance.Amount < log.Amount)
             {
                 Console.WriteLine("Not enough money in your account");
             }
             else
             {
                 Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
-                                             $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
+                                  $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
 
                 SenderAccount.Withdraw(log.Amount);
-                DepositToAccount.Deposit(log.Amount);
+
+                if (SenderAccount.Currency != DepositToAccount.Currency)
+                {
+                    log.Amount = (decimal)currencyManager.ConvertCurrency(new Balance(log.Amount), SenderAccount.Currency, DepositToAccount.Currency);
+                    Console.WriteLine($"Converted Currency from { SenderAccount.Currency.AbbreviatedNameOfCurrency} to { DepositToAccount.Currency.AbbreviatedNameOfCurrency}");
+                }
+
+                if (DepositToAccount is SavingsAccount)
+                {
+                    ((SavingsAccount)DepositToAccount).ApplySavingsInterest(log.Amount);
+                }
+                else
+                {
+                    DepositToAccount.Deposit(log.Amount);
+                }
             }
             AddTransactionLog(log);
-
         }
-        
+
 
         public void AddTransactionLog(TransactionLog transaction)
         {
-            /*Transactionslogged.Add(transaction);*/
             AccountConnector.LogTransaction(transaction);
         }
 
@@ -185,6 +195,5 @@ namespace BankApplication
                 Console.WriteLine($"{transaction.FromUser},{transaction.ToUser}, {transaction.dateTime}, {transaction.Amount}");
             }
         }
-
     }
 }

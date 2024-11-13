@@ -14,14 +14,15 @@ namespace BankApplication
         // Metod för att ansöka om ett lån med ett specifikt belopp och räntesats
         public void ApplyForLoan(Account account, decimal loanAmount, Balance totalBalance, Currency currency, decimal interestRate)
         {
-            
+
             // Beräknar maximalt lånebelopp som är tillåtet (5 gånger nuvarande saldo)
             decimal maxLoanAmount = totalBalance.Amount * MaxLoanMultiplier;
             if (loanAmount > maxLoanAmount)
             {
                 // Meddelar användaren om lånebeloppet överskrider det tillåtna maximibeloppet
-                Console.WriteLine($"Låneansökan nekad. Maximalt lånebelopp är " +
-                    $"{maxLoanAmount} {currency.AbbreviatedNameOfCurrency}. Sätt in eller för över mer pengar.");
+                Console.WriteLine($"Loan application denied. The maximum loan amount is " +
+                    $"{maxLoanAmount} {currency.AbbreviatedNameOfCurrency}. Deposit or transfer more money.");
+
                 return;
             }
 
@@ -35,9 +36,10 @@ namespace BankApplication
 
             account.Deposit(loanAmount);
             // Meddelar användaren om det beviljade lånet och den nya saldon
-            Console.WriteLine($"Lån på {loanAmount} beviljat med ränta på {interest}. " +
-                $"Totalt insatt: {loanAmount}. Nytt saldo: {totalBalance.Amount} totalt kommer " +
-                $"du att behöva betala tillbaka {totalLoanAmount}");
+            Console.WriteLine($"Loan of {loanAmount} approved with interest of {interest}.");
+            Console.WriteLine($"Total deposited: {loanAmount}. New balance: {totalBalance.Amount}");
+            Console.WriteLine($"You will need toto repay a total of {totalLoanAmount}");
+
         }
     }
 }
