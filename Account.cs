@@ -93,14 +93,9 @@ Total Balance:    10,00 SEK
         public bool Withdraw(decimal amountToWithdraw)
         {
             // Withdraw the amount from one account
-            if (Balance.Amount >= amountToWithdraw)
-            {
-                Balance.Amount -= amountToWithdraw;
-                return true;
-            }
-            return false;
-
-
+            if (amountToWithdraw > Balance.Amount) return false;
+            Balance.Amount -= amountToWithdraw;
+            return true;
         }
 
         public void DisplayInfo()
@@ -115,6 +110,7 @@ Total Balance:    10,00 SEK
         {
             // Deposit the amount ToAnother Account
             Balance.Amount += amountToDeposit;
+            
 
         }
 
