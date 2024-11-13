@@ -13,6 +13,9 @@ namespace BankApplication
 
         private AuthenticationManager _authManager;
         private CurrencyManager _currencyManager;
+        private AccountManager _userAccounts;
+        private LoanManager Lm1;
+        TransactionManager ts; 
         Admin _user;
         User _currentUser;
         public BankApp()
@@ -20,11 +23,15 @@ namespace BankApplication
             //Setup
             _authManager = new();
             _currencyManager = new();
+            _userAccounts = new();
+            Lm1 = new();
+            ts = new TransactionManager(_userAccounts, _currencyManager);
 
         }
 
         public void Run()
         {
+            // User Manager adds a user, changes exchange rate, and Logs in as user.
             Console.WriteLine("Välkommen till bankappen!"); //TODO ASCI THING ADD
             _user = new Admin("admin", "password123", _authManager); //Auto login as Admin for test.
             Console.WriteLine("Auto Selecting Admin as user");
@@ -41,23 +48,24 @@ namespace BankApplication
             // Bank Menu
             Console.WriteLine("\n Bank Meny \n");
 
-            AccountManager userAccounts = new AccountManager();
-            userAccounts.AddAccount("A001", "SEK");
-            userAccounts.AddSavingsAccount("A002", "USD");
+            // Account manager creates accounts
+            _userAccounts.AddAccount("A001", "SEK");
+            _userAccounts.AddSavingsAccount("A002", "USD");
             Console.WriteLine("Account 1 created, Acc no A001");
             Console.WriteLine("Savings Account 2 created, Acc no A002");
             
-
-            var account1 = userAccounts.FindAccount("A001");
+            // Deposits to account 1
+            var account1 = _userAccounts.FindAccount("A001");
             account1.Deposit(1000m);
             Console.WriteLine("1000 SEK has been deposited to Account A001");
 
             //Loan manager function
-            LoanManager Lm1 = new LoanManager();
+            
             Lm1.ApplyForLoan(account1, 4500, account1.Balance, account1.Currency, 0.043m);
 
-            TransactionManager ts = new TransactionManager(userAccounts, _currencyManager);
+            // Transaction Manager
             ts.HandleUnprocessedTransactions();
+            // Currency Manager acts on the side.
             ts.TransactionRequest("A001", "A002", 150);
             
             Console.WriteLine($"150 SEK has been transferred from Account A001 to Account A002");
