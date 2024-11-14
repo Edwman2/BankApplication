@@ -35,10 +35,10 @@ DONE "Unit"-test Copy Main - to ensure that the relations between calls and clas
 * Complete Unit-test?
 * Merge branch: Design_UI_Simon to Copy_Main.
 * Put the appropriate calls to Methods/Classes etc. in the appropriate places.
-* Create class for User Input
+* Discuss if we need to create class for User Input.
 * Call User Input where we need to.
 * Run with no errors.
-* Merge Copy_Main to Main
+* Merge Copy_Main to Main.
 * Finished program :)
 
 #                                                   Implement if possible.
@@ -46,6 +46,11 @@ DONE "Unit"-test Copy Main - to ensure that the relations between calls and clas
 * Create a separate file maybe .txt to store users and accounts?
 * Make each property/field private.
 * Try to implement and check the code for inheritance, abstraction, polymorphism and encapsupsulation.
+* Have all the program's account related methods go through Account Manager.
+* Change the spelling and naming to a consistent way.
+* Add Enum to appropriate places and put to use.
+* Change AccountNumber from a string to a unique string like GUID or our own randomly generated one with added check.
+* 
 
 
 

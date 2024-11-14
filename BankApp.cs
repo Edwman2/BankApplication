@@ -32,7 +32,7 @@ namespace BankApplication
         public void Run()
         {
             // User Manager adds a user, changes exchange rate, and Logs in as user.
-            Console.WriteLine("Välkommen till bankappen!"); //TODO ASCI THING ADD
+            Console.WriteLine("Welcome to the BankApp!"); //TODO ASCI THING ADD
             _user = new Admin("admin", "password123", _authManager); //Auto login as Admin for test.
             Console.WriteLine("Auto Selecting Admin as user");
             _user.CreateUser("Simon", "si");
@@ -57,6 +57,7 @@ namespace BankApplication
             // Deposits to account 1
             var account1 = _userAccounts.FindAccount("A001");
             account1.Deposit(1000m);
+
             Console.WriteLine("1000 SEK has been deposited to Account A001");
 
             //Loan manager function

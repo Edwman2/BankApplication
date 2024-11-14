@@ -21,6 +21,7 @@ namespace BankApplication
             }
         }
 
+
         public bool AddAccount(string accountNumber, string currency)
         {
             accounts.Add(new Account(accountNumber, new Balance(0.00m), new Currency(currency)));
@@ -56,9 +57,13 @@ namespace BankApplication
 
         }
         // Prints the transaction history for the money account the user has specified.
+        // UNTESTED*
+        // _userAccounts.ShowTransactionHistory("A003");
+        // ChosenAccount blev null.
         public void ShowTransactionHistory(string accountNumber)
         {
             Account ChosenAccount = accounts.Find(a => a.AccountNumber == accountNumber);
+            Console.WriteLine($"You have: {ChosenAccount.TransactionHistory.Count} transactions ");
             foreach (TransactionLog transaction in ChosenAccount.TransactionHistory)
             {
                 Console.WriteLine(transaction);

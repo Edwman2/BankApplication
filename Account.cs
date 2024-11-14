@@ -63,10 +63,6 @@ Total Balance:    10,00 SEK
     internal class Account
     {
 
-
-
-
-
         // egenskaper som kontonummer, saldo och valuta 
         // TODO - Kontotyp?
         //public enum AccountType

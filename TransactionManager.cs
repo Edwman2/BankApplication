@@ -159,16 +159,29 @@ namespace BankApplication
             }
             else
             {
-                Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
-                                  $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
+                
+                if (SenderAccount.Currency.AbbreviatedNameOfCurrency != DepositToAccount.Currency.AbbreviatedNameOfCurrency)
+                {   
+                    decimal originalAmount = log.Amount;
+                    decimal? convertedAmount = currencyManager.ConvertCurrency(new Balance(log.Amount), SenderAccount.Currency, DepositToAccount.Currency);
+
+                    if (convertedAmount == null)
+                        return;
+
+                    log.Amount = (decimal)convertedAmount;
+                    Console.WriteLine("Both accounts were found and the transaction is in progress.");
+                    Console.WriteLine($"Converted transferred money from {originalAmount} {SenderAccount.Currency.AbbreviatedNameOfCurrency}" +
+                                      $" to {convertedAmount} {DepositToAccount.Currency.AbbreviatedNameOfCurrency}\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
+                }
+                else
+                {
+                    Console.WriteLine($"Both accounts were found and the transaction is in progress. {log.Amount}" +
+                                      $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
+                }
+
+                
 
                 SenderAccount.Withdraw(log.Amount);
-
-                if (SenderAccount.Currency != DepositToAccount.Currency)
-                {
-                    log.Amount = (decimal)currencyManager.ConvertCurrency(new Balance(log.Amount), SenderAccount.Currency, DepositToAccount.Currency);
-                    Console.WriteLine($"Converted Currency from { SenderAccount.Currency.AbbreviatedNameOfCurrency} to { DepositToAccount.Currency.AbbreviatedNameOfCurrency}");
-                }
 
                 if (DepositToAccount is SavingsAccount)
                 {
