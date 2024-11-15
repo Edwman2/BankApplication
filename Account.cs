@@ -7,22 +7,6 @@ using System.Threading.Tasks;
 
 namespace BankApplication
 {
-    /*
-     Steg 2: Kontohantering och Saldofunktion (Simon Eke)
-
-    För att användare ska kunna se sina konton och saldo, skapa en Account-klass som innehåller egenskaper som kontonummer, saldo och valuta. 
-    Lägg till metoder för att sätta in och ta ut pengar.
-    Rekommendationer och tips:
-        - Skapa en lista över konton för varje användare.
-        - Implementera metoder för insättning och uttag, men tänk på att uttag bara ska vara möjliga om saldot tillåter det.
-        - Diskutera: 
-            * Hur ni vill hantera kontonummer och valutor.
-            * Vem ska hantera "messages to user"? Jag kan göra om Withdraw() och Deposit() till bool istället t.ex.
-            * Separata klasserna Balance och Currency. Vad kan det tillföra till andra?
-            * 
-
-    */
-
     /*      Tests passed.
      
             
@@ -63,8 +47,8 @@ Total Balance:    10,00 SEK
     internal class Account
     {
 
-        // egenskaper som kontonummer, saldo och valuta 
-        // TODO - Kontotyp?
+        // Properties:
+        // TODO - Account type?
         //public enum AccountType
         //{
         //    Debit,
@@ -85,11 +69,12 @@ Total Balance:    10,00 SEK
         }
 
         
-
         public bool Withdraw(decimal amountToWithdraw)
         {
             // Withdraw the amount from one account
-            if (amountToWithdraw > Balance.Amount) return false;
+            if (amountToWithdraw > Balance.Amount) 
+                return false;
+
             Balance.Amount -= amountToWithdraw;
             return true;
         }
@@ -106,8 +91,6 @@ Total Balance:    10,00 SEK
         {
             // Deposit the amount ToAnother Account
             Balance.Amount += amountToDeposit;
-            
-
         }
 
     }
