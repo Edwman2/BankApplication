@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankApplication
 {
@@ -12,6 +8,9 @@ namespace BankApplication
         public BankApp()
         {
             //Setup
+            InteractiveMenu newLogin = new InteractiveMenu();
+            newLogin.Display();
+            Console.ReadLine();
         }
 
         public void Run()

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankApplication
 {
@@ -210,11 +206,11 @@ namespace BankApplication
                             {
                                 passwordHidden = passwordHidden.Substring(0, passwordHidden.Length - 1); //Remove last character overrite it with space
                                 Console.CursorLeft--;
-                                Console.Write(" "); 
-                                Console.CursorLeft--; 
+                                Console.Write(" ");
+                                Console.CursorLeft--;
                                 continue;
                             }
-                            passwordHidden += key.KeyChar; 
+                            passwordHidden += key.KeyChar;
                             Console.Write("*");
                         }
                     }
