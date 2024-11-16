@@ -102,7 +102,7 @@ Total Balance:    10,00 SEK
         {
             // Displays Account info
             Console.WriteLine($"Account Number: {AccountNumber,8} \n" +
-                $"Total Balance: {Balance,8} {Currency.AbbreviatedNameOfCurrency}\n");
+                $"Total Balance: {Balance.Amount,8} {Currency.AbbreviatedNameOfCurrency}\n");
 
         }
 

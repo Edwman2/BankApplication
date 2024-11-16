@@ -6,6 +6,7 @@ namespace BankApplication
 {
     internal class AccountManager
     {
+        static HashSet<int> accountNumbers = new HashSet<int>(); //used to give accounts unique ID's
         private List<Account> accounts { get; set; }
 
         public AccountManager()
@@ -21,15 +22,33 @@ namespace BankApplication
             }
         }
 
-        public bool AddAccount(string accountNumber, string currency)
+        public List<Account> GetAccounts()
         {
-            accounts.Add(new Account(accountNumber, new Balance(0.00m), new Currency(currency)));
+            return accounts;
+        }
+
+        public bool AddAccount(string currency)
+        {
+            accounts.Add(new Account(GenerateAccountNumber().ToString(), new Balance(0.00m), new Currency(currency)));
             return true;
         }
 
-        public bool AddSavingsAccount(string accountNumber, string currency)
+        private int GenerateAccountNumber()
         {
-            accounts.Add(new SavingsAccount(accountNumber, new Balance(0.00m), new Currency(currency)));
+            int nmr = 0;
+            Random rnd = new();
+            do
+            {
+                nmr = rnd.Next();
+
+            } while (accountNumbers.Contains(nmr));
+
+            return nmr;
+        }
+
+        public bool AddSavingsAccount(string currency)
+        {
+            accounts.Add(new SavingsAccount(GenerateAccountNumber().ToString(), new Balance(0.00m), new Currency(currency)));
             return true;
         }
 
@@ -39,20 +58,24 @@ namespace BankApplication
 
             return foundAccount;
         }
-        public void LogTransaction(TransactionLog log)
+        public void LogTransaction(TransactionLog log, string owner)
         {
-            Account fromAccount = accounts.Find(a => a.AccountNumber == log.FromUser);
-            Account toAccount = accounts.Find(a => a.AccountNumber == log.ToUser);
-            if (fromAccount != null && toAccount != null)
-            {
-                fromAccount.TransactionHistory.Add(log);
-                toAccount.TransactionHistory.Add(log);
-            }
-            else
-            {
-                Console.WriteLine("Feck off!"); // TODO - What is going to happen if one is valid 
-                // and the other isn't? Should it be logged anyway?
-            }
+            //Account fromAccount = accounts.Find(a => a.AccountNumber == log.FromUser);
+            //Account toAccount = accounts.Find(a => a.AccountNumber == log.ToUser);
+
+            //if (fromAccount != null && toAccount != null)
+            //{
+            //    fromAccount.TransactionHistory.Add(log);
+            //    toAccount.TransactionHistory.Add(log);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Feck off!"); // TODO - What is going to happen if one is valid 
+            //    // and the other isn't? Should it be logged anyway?
+            //}
+
+            Account acc = accounts.Find(a => a.AccountNumber == owner);
+            acc?.TransactionHistory.Add(log);
 
         }
         // Prints the transaction history for the money account the user has specified.
@@ -61,7 +84,19 @@ namespace BankApplication
             Account ChosenAccount = accounts.Find(a => a.AccountNumber == accountNumber);
             foreach (TransactionLog transaction in ChosenAccount.TransactionHistory)
             {
-                Console.WriteLine(transaction);
+                Console.WriteLine(
+                    $"| From: {transaction.FromUser} " +
+                    $"| To: {transaction.ToUser} " +
+                    $"| Anmount: {transaction.Amount}");
+                Console.WriteLine("");
+                Console.WriteLine(
+                    $"| Requested: {transaction.dateTimeRequested} " +
+                    $"| Completed: {transaction.dateTimeCompleted} ");
+                Console.WriteLine("");
+                Console.WriteLine(
+                     $"| Status: {transaction.status}" +
+                     $"| Error Message: {transaction.ErrorMessage} ");
+                Console.WriteLine("--------------------------------------");
             }
         }
 
@@ -69,11 +104,11 @@ namespace BankApplication
 
         //public bool DeleteAccount(string accountNumber)
         //{
-            
+
         //    var deleteAccount = accounts.Find(a => a.AccountNumber == accountNumber);
         //    if (deleteAccount == null) return false;
         //    else if (deleteAccount.)
-                
+
         //        accounts.Remove(deleteAccount);
         //    return false;
         //}

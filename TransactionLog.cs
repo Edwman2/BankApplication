@@ -8,18 +8,20 @@ namespace BankApplication
 {
     internal class TransactionLog
     {
+        internal decimal Amount { get; set; } // Transaction Amount
         internal string FromUser { get; set; } // AccNumber
         internal string ToUser { get; set; } // AccNumber
-        internal decimal Amount { get; set; } // Transaction Amount
         internal string ErrorMessage { get; set; }
-        internal DateTime dateTime = DateTime.Now; // Ska 
-
+        internal DateTime dateTimeRequested = DateTime.Now; // Ska 
+        internal DateTime dateTimeCompleted = DateTime.Now; // Ska 
+        internal string status;
 
         internal TransactionLog(string fromuser, string touser, decimal amount)
         {
             FromUser = fromuser;
             ToUser = touser;
             Amount = amount;
+            status = "Pending";
         }
     }
 }

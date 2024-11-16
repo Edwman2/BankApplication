@@ -19,6 +19,10 @@ namespace BankApplication
             exchangeRates.Add("EUR", 0.09m); // 1 SEK = 0.09 EUR (approx)
             exchangeRates.Add("JPY", 12.0m); // 1 SEK = 12 JPY (approx)
         }
+        public IReadOnlyDictionary<string, decimal> GetExchangeRates()
+        {
+            return exchangeRates;
+        }
 
         public void UpdateExchangeRate(string currency, decimal rate, bool isAdmin = false)
         {
@@ -31,10 +35,6 @@ namespace BankApplication
             Console.WriteLine("Error: Only admin can update exchange rates");
         }
 
-        public IReadOnlyDictionary<string, decimal> GetExchangeRates()
-        {
-            return exchangeRates;
-        }
 
         public decimal? ConvertCurrency(Balance amount, Currency fromCurrency, Currency toCurrency)
         {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -98,19 +99,21 @@ namespace BankApplication
         // NEW - The list is stored and handled by the Account Manager.
         internal Queue<TransactionLog> UnprocessedTransactions { get; set; }
         internal Queue<TransactionLog> NewUnprocessedTransactions { get; set; }
-        internal AccountManager AccountConnector { get; private set; }
-        internal List<TransactionLog> Transactionslogged { get; set; } // OLD - sent to AccManager
         internal CurrencyManager currencyManager;
+        internal UserManager userManager;
 
-        internal TransactionManager(AccountManager aM, CurrencyManager currencyManager)
+        Account SenderAccount;
+        Account DepositToAccount;
+
+        internal TransactionManager(CurrencyManager currencyManager, UserManager userManager)
         {
             // ****List to store the verified accounts handled by transactionmanager ****
             // NEW - The list is stored and handled by the Account Manager.
             UnprocessedTransactions = new Queue<TransactionLog>();
             NewUnprocessedTransactions = new Queue<TransactionLog>();
-            AccountConnector = aM;
-            Transactionslogged = new List<TransactionLog>(); // OLD - sent to AccManager
+            //Transactionslogged = new List<TransactionLog>(); // OLD - sent to AccManager
             this.currencyManager = currencyManager;
+            this.userManager = userManager;
         }
 
         internal void TransactionRequest(string AccountnumberOfSender, string AccountNumberOfreciever, decimal amount)
@@ -130,44 +133,44 @@ namespace BankApplication
                     NewUnprocessedTransactions.Enqueue(UnprocessedTransactions.Dequeue());
                 }
 
-                Console.WriteLine("Handling transactions " + NewUnprocessedTransactions.Count);
+                //Console.WriteLine("Handling transactions " + NewUnprocessedTransactions.Count);
 
                 while (NewUnprocessedTransactions.Count > 0)
                 {
                     ProcessesAccounts(NewUnprocessedTransactions.Dequeue());
                 }
-                ShowTransactionInfo();
+                //ShowTransactionInfo();
             }
         }
 
         internal void ProcessesAccounts(TransactionLog log)
         {
-            Account SenderAccount = AccountConnector.FindAccount(log.FromUser); // Using accountmanager 
-            Account DepositToAccount = AccountConnector.FindAccount(log.ToUser);
+            Account SenderAccount = userManager.GetUser("", log.FromUser).AccountManager.FindAccount(log.FromUser);
+            Account DepositToAccount = userManager.GetUser("", log.ToUser).AccountManager.FindAccount(log.ToUser);
 
+            log.status = "Failed";
             if (SenderAccount == null)
             {
-                Console.WriteLine("Your account can not be found");
+                log.ErrorMessage = "Your account could not be found";
             }
             else if (DepositToAccount == null)
             {
-                Console.WriteLine("The account you are trying to transfer money to can not be found");
+                log.ErrorMessage = "The account you are trying to transfer money to could not be found";
             }
             else if (SenderAccount.Balance.Amount < log.Amount)
             {
-                Console.WriteLine("Not enough money in your account");
+                log.ErrorMessage = "Not enough money in your account";
             }
             else
             {
-                Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
-                                  $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
-
+                //Console.WriteLine($"both accounts were found and the transaction is in progress. {log.Amount}" +
+                //                  $" SEK is on it's way.\nSender: {log.FromUser,1} \nReciever: {log.ToUser,1}");
                 SenderAccount.Withdraw(log.Amount);
 
                 if (SenderAccount.Currency != DepositToAccount.Currency)
                 {
                     log.Amount = (decimal)currencyManager.ConvertCurrency(new Balance(log.Amount), SenderAccount.Currency, DepositToAccount.Currency);
-                    Console.WriteLine($"Converted Currency from { SenderAccount.Currency.AbbreviatedNameOfCurrency} to { DepositToAccount.Currency.AbbreviatedNameOfCurrency}");
+                    //Console.WriteLine($"Converted Currency from {SenderAccount.Currency.AbbreviatedNameOfCurrency} to {DepositToAccount.Currency.AbbreviatedNameOfCurrency}");
                 }
 
                 if (DepositToAccount is SavingsAccount)
@@ -178,6 +181,8 @@ namespace BankApplication
                 {
                     DepositToAccount.Deposit(log.Amount);
                 }
+                log.ErrorMessage = "";
+                log.status = "Completed";
             }
             AddTransactionLog(log);
         }
@@ -185,15 +190,18 @@ namespace BankApplication
 
         public void AddTransactionLog(TransactionLog transaction)
         {
-            AccountConnector.LogTransaction(transaction);
+
+
+            userManager.GetUser("", transaction.FromUser).AccountManager.LogTransaction(transaction, transaction.FromUser);
+            userManager.GetUser("", transaction.ToUser).AccountManager.LogTransaction(transaction, transaction.ToUser);
         }
 
-        public void ShowTransactionInfo()
-        {
-            foreach (var transaction in Transactionslogged)
-            {
-                Console.WriteLine($"{transaction.FromUser},{transaction.ToUser}, {transaction.dateTime}, {transaction.Amount}");
-            }
-        }
+        //public void ShowTransactionInfo()
+        //{
+        //    foreach (var transaction in Transactionslogged)
+        //    {
+        //        Console.WriteLine($"{transaction.FromUser},{transaction.ToUser}, {transaction.dateTime}, {transaction.Amount}");
+        //    }
+        //}
     }
 }
