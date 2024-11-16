@@ -11,7 +11,7 @@ namespace BankApplication
 
         private Dictionary<string, decimal> exchangeRates = new Dictionary<string, decimal>();
 
-
+        //
         public CurrencyManager()
         {
             exchangeRates.Add("SEK", 1);    // SEK to SEK, no change
@@ -24,6 +24,7 @@ namespace BankApplication
             return exchangeRates;
         }
 
+        //
         public void UpdateExchangeRate(string currency, decimal rate, bool isAdmin = false)
         {
             if (isAdmin)
@@ -34,7 +35,6 @@ namespace BankApplication
 
             Console.WriteLine("Error: Only admin can update exchange rates");
         }
-
 
         public decimal? ConvertCurrency(Balance amount, Currency fromCurrency, Currency toCurrency)
         {
@@ -49,7 +49,7 @@ namespace BankApplication
                 return null;
             }
 
-            return amount.Amount * exchangeRates[toCurrency.AbbreviatedNameOfCurrency] / exchangeRates[fromCurrency.AbbreviatedNameOfCurrency];
+            return amount.Amount * (exchangeRates[toCurrency.AbbreviatedNameOfCurrency] / exchangeRates[fromCurrency.AbbreviatedNameOfCurrency]);
         }
     }
 }

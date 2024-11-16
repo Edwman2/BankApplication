@@ -152,7 +152,7 @@ namespace BankApplication.UI
 
         private Account SelectFromAccount(global::User user, string owner)
         {
-            var temp = _userManager.GetLoggedInUser().AccountManager.GetAccounts();
+            var temp = user.AccountManager.GetAccounts();
 
             Console.Clear();
             Console.WriteLine($"{Logo.LogoSMALL}\n");

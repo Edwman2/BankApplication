@@ -52,6 +52,7 @@ namespace BankApplication
             return true;
         }
 
+        // Finds a specified account in the User's list
         public Account FindAccount(string accountsNumber)
         {
             Account foundAccount = accounts.Find(a => a.AccountNumber == accountsNumber);
@@ -93,9 +94,21 @@ namespace BankApplication
                     $"| Requested: {transaction.dateTimeRequested} " +
                     $"| Completed: {transaction.dateTimeCompleted} ");
                 Console.WriteLine("");
-                Console.WriteLine(
-                     $"| Status: {transaction.status}" +
-                     $"| Error Message: {transaction.ErrorMessage} ");
+
+
+                Console.Write("| Status:");
+                if (transaction.status == "Failed")
+                    Console.ForegroundColor = ConsoleColor.Red;  
+                else if (transaction.status == "Success")
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else
+                    Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(transaction.status);
+                Console.ResetColor();
+                Console.WriteLine($"| Error Message: {transaction.ErrorMessage}");
+
+                // Reset color back to default after printing status
+                Console.ResetColor();
                 Console.WriteLine("--------------------------------------");
             }
         }
