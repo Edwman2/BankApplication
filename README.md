@@ -4,19 +4,19 @@ Simon Eke, Edwin Torres, Mattias Åström, Jacob Daoud, Alex Gorie
 # How To.
 
 # BankApplication.
- - ** **User** **: 
+ - **User** **: 
 	Consist of a basic class containing a Username and Password
- - ** **Account** **: 
+ - **Account** **: 
 	Contains info about the account such as currency, balance, and account number. It also handles logic for withdrawals and deposits.
- - ** **UserManager & AuthenticationManager** **: 
+ - **UserManager & AuthenticationManager** **: 
 	In here we handle the login process as well as keeping track of all the current existing users.
- - ** **AccountManager** **: 
+ - **AccountManager** **: 
 	Contains the users active accounts and handle logic such as adding/removing/displaying accounts and transaction history.
- - ** **CurrencyManager** **: 
+ - **CurrencyManager** **: 
 	Keeps track of the currency values and convert between them if necessary.
- - ** **LoanManager** **: 
+ - **LoanManager** **: 
 	Handles the logic for when a user want to apply for a loan.
- - ** **TransactionManager** **: 
+ - **TransactionManager** **: 
 	Every transfer is managed through this. Here, we save all the requests and process them every 15 minutes, returning a transaction log.
 	
 
@@ -54,9 +54,9 @@ Story Points
 * Merge branch: Design_UI_Simon to Copy_Main.
 * Put the appropriate calls to Methods/Classes etc. in the appropriate places.
 * Discuss if we need to create class for User Input.
-~~ ~~* Call User Input where we need to.~~ ~~ (UI implementation can be found at this branch: [GitHub Branch](https://github.com/Edwman2/BankApplication/tree/Mattias_UI_Test).)
-~~ ~~* Run with no errors.~~ ~~
-~~ ~~* Merge Copy_Main to Main.~~ ~~
+* *~~ ~~* Call User Input where we need to.~~ ~~ (UI implementation can be found at this branch: [GitHub Branch](https://github.com/Edwman2/BankApplication/tree/Mattias_UI_Test).)
+* *~~ ~~* Run with no errors.~~ ~~
+* *~~ ~~* Merge Copy_Main to Main.~~ ~~
 * Finished program :)
 
 #                                                   Implement if possible.
