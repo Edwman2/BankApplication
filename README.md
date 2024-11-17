@@ -1,7 +1,25 @@
 #                                         OVERVIEW
 # Authors: 
 Simon Eke, Edwin Torres, Mattias Åström, Jacob Daoud, Alex Gorie
+# How To.
+
 # BankApplication.
+ - ** **User** **: 
+	Consist of a basic class containing a Username and Password
+ - ** **Account** **: 
+	Contains info about the account such as currency, balance, and account number. It also handles logic for withdrawals and deposits.
+ - ** **UserManager & AuthenticationManager** **: 
+	In here we handle the login process as well as keeping track of all the current existing users.
+ - ** **AccountManager** **: 
+	Contains the users active accounts and handle logic such as adding/removing/displaying accounts and transaction history.
+ - ** **CurrencyManager** **: 
+	Keeps track of the currency values and convert between them if necessary.
+ - ** **LoanManager** **: 
+	Handles the logic for when a user want to apply for a loan.
+ - ** **TransactionManager** **: 
+	Every transfer is managed through this. Here, we save all the requests and process them every 15 minutes, returning a transaction log.
+	
+
 # Backlog:
 Story Points
 - Som systemägare vill jag att alla användare ska logga in med ett unikt användarnamn och lösenord.
@@ -29,16 +47,16 @@ Story Points
 
 #                                                 TODO-LIST
 
-~~ * "Unit"-test Copy Main - to ensure that the relations between calls and classes and objects works for the simulated test.~~
+~~ ~~* "Unit"-test Copy Main - to ensure that the relations between calls and classes and objects works for the simulated test.~~ ~~
 * Remove/Change/Add Comments in code.
 * Discuss if the made Unit-test covers the functionality of the program.
 * Complete Unit-test?
 * Merge branch: Design_UI_Simon to Copy_Main.
 * Put the appropriate calls to Methods/Classes etc. in the appropriate places.
 * Discuss if we need to create class for User Input.
-* Call User Input where we need to.
-* Run with no errors.
-* Merge Copy_Main to Main.
+~~ ~~* Call User Input where we need to.~~ ~~ (UI implementation can be found at this branch: [GitHub Branch](https://github.com/Edwman2/BankApplication/tree/Mattias_UI_Test).)
+~~ ~~* Run with no errors.~~ ~~
+~~ ~~* Merge Copy_Main to Main.~~ ~~
 * Finished program :)
 
 #                                                   Implement if possible.
@@ -50,7 +68,7 @@ Story Points
 * Change the spelling and naming to a consistent way.
 * Add Enum to appropriate places and put to use.
 * Change AccountNumber from a string to a unique string like GUID or our own randomly generated one with added check.
-* 
+
 
 
 
