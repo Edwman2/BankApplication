@@ -69,8 +69,8 @@ Story Points
 * Add Enum to appropriate places and put to use.
 * Change AccountNumber from a string to a unique string like GUID or our own randomly generated one with added check.
 
-
-
+#                                                   UML.
+[GitHub Branch](https://github.com/Edwman2/BankApplication/blob/main/TrustExecutivesUML.png).
 
 
 
