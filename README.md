@@ -2,7 +2,7 @@
 # Authors: 
 Simon Eke, Edwin Torres, Mattias Åström, Jacob Daoud, Alex Gorie
 # How To.
-Start the program, this will go through a simulation of user being created by an admin and goes through multiple possible actions, covering all requested features the backlog had.
+Start the program, this will go through a simulation of user being created by an admin and goes through multiple possible actions, covering all requested features in the backlog.
 You can find a implementation with a UI at this branch: [GitHub Branch](https://github.com/Edwman2/BankApplication/tree/Mattias_UI_Test).)
 # BankApplication.
  - **User**: 
