@@ -11,12 +11,15 @@ public class User
     internal AccountManager AccountManager;
     public string Username { get; set; }
     public string Password { get; set; }
+    public bool LockedAccount { get; set; }
     public int FailedLoginAttempts { get; set; }
+
 
     public User(string username, string password)
     {
         Username = username;
         Password = password;
+        LockedAccount = false;
         FailedLoginAttempts = 3;
         AccountManager = new();
         AccountManager.AddAccount("SEK");
@@ -86,7 +89,6 @@ public class UserManager
 
         if (user.Password != password)
         {
-            user.FailedLoginAttempts--;
             return false;
             //user.FailedLoginAttempts++;
             //if (user.FailedLoginAttempts >= 3)

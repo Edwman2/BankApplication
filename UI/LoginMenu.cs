@@ -28,7 +28,7 @@ namespace BankApplication.UI
             if (_failedToLogin)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"    Wrong password or username. Attempts left: {_userManager.GetLoggedInUser().FailedLoginAttempts}\n");
+                Console.WriteLine($"    Wrong password or username. Attempts left: {_userManager.GetUsers().Find(u => u.Username == _username).FailedLoginAttempts}\n");
                 _failedToLogin = false;
                 Console.ResetColor();
             }
@@ -48,6 +48,8 @@ namespace BankApplication.UI
             string passwordHidden = "";
 
             Console.CursorVisible = false;
+
+
 
             while (!isSelected)
             {
@@ -99,7 +101,14 @@ namespace BankApplication.UI
                     username = Console.ReadLine();
 
                     _username = username;
-
+                    if (_userManager.GetUsers().Find(u => u.Username == username).LockedAccount)
+                    {
+                        Console.WriteLine("You have failed to login 3 times, your account has been locked.");
+                        Console.WriteLine("Press anywhere to continue...");
+                        Console.ReadLine();
+                        nextState = eUIOptions.MainMenu;
+                        return nextState;
+                    }
                     option++;
                     nextState = Display();
                     break;
@@ -128,6 +137,19 @@ namespace BankApplication.UI
                                 else
                                 {
                                     _failedToLogin = true;
+                                    _userManager.GetUsers().Find(u => u.Username == username).FailedLoginAttempts--;
+                                    if (_userManager.GetUsers().Find(u => u.Username == username).FailedLoginAttempts <= 0)
+                                    {
+                                        _userManager.GetUsers().Find(u => u.Username == username).LockedAccount = true;
+                                        if (_userManager.GetUsers().Find(u => u.Username == username).LockedAccount)
+                                        {
+                                            Console.WriteLine("You have failed to login 3 times, your account has been locked.");
+                                            Console.WriteLine("Press anywhere to continue...");
+                                            Console.ReadLine();
+                                            nextState = eUIOptions.MainMenu;
+                                            return nextState;
+                                        }
+                                    }
                                     nextState = Display();
                                 }
                                 break;
