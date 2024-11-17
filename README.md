@@ -29,7 +29,7 @@ Story Points
 
 #                                                 TODO-LIST
 
-DONE "Unit"-test Copy Main - to ensure that the relations between calls and classes and objects works for the simulated test.
+~~ * "Unit"-test Copy Main - to ensure that the relations between calls and classes and objects works for the simulated test.~~
 * Remove/Change/Add Comments in code.
 * Discuss if the made Unit-test covers the functionality of the program.
 * Complete Unit-test?
